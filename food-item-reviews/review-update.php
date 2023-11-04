@@ -21,4 +21,21 @@
 			<input type='submit' value='Update review'></input>
 		</form>
 	</body>
-</html>
+</html
+
+<?php
+//import files
+include "../php-functions/sanitize.php";
+
+//set form submission variables
+if(isset($_POST["review-rating"]))	{
+	$review_rating = $_POST["review-rating"];
+}
+if(isset($_POST["review-title"]))	{
+	$review_title = sanitizeString($_POST["review-title"]);
+}
+if(isset($_POST["review-description"]))	{
+	$review_description = sanitizeString($_POST["review-description"]);
+}
+
+?>
