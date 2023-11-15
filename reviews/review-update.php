@@ -83,7 +83,7 @@ if(isset($_GET['id']))	{
 							Review title: <input type='text' name='review-title' value='$review[title]'></input><br><br>
 							Review description: <input type='text' name='review-description' value='$review[description]'></input><br><br>
 						</div>
-							<input type='submit' value='Add review'></input>
+							<input type='submit' value='Update review'></input>
 					</form>
 				</div>
 			</div>

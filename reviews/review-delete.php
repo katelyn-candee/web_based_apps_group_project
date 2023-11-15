@@ -9,8 +9,10 @@ if($conn->connect_error) die($conn->connect_error);
 if(isset($_GET['review']))	{
 	
 	$review_id = $_GET['review'];
-	$query = "delete from review 
-	where review_id='$review_id'";
+	$query = "
+		delete from review 
+		where review_id='$review_id'
+	";
 
 	$result = $conn->query($query); 
 	if(!$result) die($conn->error);
