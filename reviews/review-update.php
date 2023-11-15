@@ -1,49 +1,3 @@
-<?php
-//import files
-include "../php-functions/sanitize.php";
-
-// set db connection variables and credentials
-$servername = "localhost:3306";
-$username = "root";
-$password = "";
-$dbname = "food_app";
-
-// create db connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-$food_item_id = 4;
-
-// get food item from db
-$sql = "
-	select name
-	from food_items
-	where id=$food_item_id;
-	
-	";
-$result = $conn->query($sql);
-
-$food_item = array();
-if ($result->num_rows > 0) {
-    $food_item = $result->fetch_assoc();
-}
-
-//set form submission variables
-if(isset($_POST["review-rating"]))	{
-	$review_rating = $_POST["review-rating"];
-}
-if(isset($_POST["review-title"]))	{
-	$review_title = sanitizeString($_POST["review-title"]);
-}
-if(isset($_POST["review-description"]))	{
-	$review_description = sanitizeString($_POST["review-description"]);
-}
-
-?>
-
 <html>
 	<head>
 		<title>Update Review</title>
@@ -60,32 +14,126 @@ if(isset($_POST["review-description"]))	{
 				</div>	
 			</div>
 		</div>
+
+<?php
+//import functions
+require_once "../db/login.php";
+
+//for development until we learn how to get user info
+$member_id = 4;
+
+//create database connection
+	$conn = new mysqli($hn, $un, $pw, $db);
+	if($conn->connect_error) die($conn->connect_error);
+
+//check if review id was passed
+if(isset($_GET['id']))	{
+
+	//get review id
+	$review_id = $_GET['id'];
+	
+	//get review data from database
+	$query = "
+		select 
+			rev.*,
+			f.name as food_item_name,
+			res.name as restaurant_name
+		from review as rev
+		left join food_item as f
+			on rev.food_item_id = f.food_item_id
+		left join restaurant as res
+			on f.restaurant_id = res.restaurant_id
+		where review_id='$review_id';
+	";
+	
+	$result = $conn->query($query);
+	
+	if(!$result) die($conn->error);	
+	$review = $result->fetch_array(MYSQLI_ASSOC);
+	
+	//rating
+	$rating1=$rating2=$rating3=$rating4=$rating5=0;
+	if($review['rating']==1) $rating1 = 'checked';
+	if($review['rating']==2) $rating2 = 'checked';
+	if($review['rating']==3) $rating3 = 'checked';
+	if($review['rating']==4) $rating4 = 'checked';
+	if($review['rating']==5) $rating5 = 'checked';
+
+	//print header and review form
+	echo <<<_END
 		<div class='container-fluid'>
 			<div class='row'>
 				<div class="col-sm-12">
-					<h2>Tell us what you think about <?php echo $food_item['name']; ?> </h2>
+					<h2>Tell us what you thought about the $review[food_item_name] at $review[restaurant_name]</h2>
 				</div>	
 			</div>
 			<div class='row'>
 				<div class='col-sm-12'>
-					<form method='post' action='food-item-reviews.php'>
+					<form method='post'>
 						<div>
 							Rating: 
-							<input type ="radio" name='rating' value ='1'> 1 star
-							<input type ="radio" name='rating' value ='2'> 2 stars
-							<input type ="radio" name='rating' value ='3'> 3 stars
-							<input type ="radio" name='rating' value ='4'> 4 stars
-							<input type ="radio" name='rating' value ='5'> 5 stars
+							<input type ="radio" name='review-rating' value ='1' $rating1> 1 star
+							<input type ="radio" name='review-rating' value ='2' $rating2> 2 stars
+							<input type ="radio" name='review-rating' value ='3' $rating3> 3 stars
+							<input type ="radio" name='review-rating' value ='4' $rating4> 4 stars
+							<input type ="radio" name='review-rating' value ='5' $rating5> 5 stars
 							<br><br>
 						</div>
 						<div>
-							Review title: <input type='text' name='review-title'></input><br><br>
-							Review description: <input type='text'></input><br><br>
+							Review title: <input type='text' name='review-title' value='$review[title]'></input><br><br>
+							Review description: <input type='text' name='review-description' value='$review[description]'></input><br><br>
 						</div>
-							<input type='submit' value='Update review'></input>
+							<input type='submit' value='Add review'></input>
 					</form>
 				</div>
 			</div>
-		</div
+		</div>
+	_END;
+}
+
+//check if rating submitted and write review to database
+if(isset($_POST["review-rating"]))	{
+	//rating
+	$review_rating = $_POST['review-rating'];
+	if(isset($_POST["review-title"]))	{
+	
+	//title
+	$review_title = $_POST['review-title'];
+	} else {
+		$review_title = "";
+	}
+	
+	//description
+	if(isset($_POST['review-description']))	{
+		$review_description = $_POST["review-description"];
+	} else {
+		$review_description = "";
+	}
+	
+	//date
+	$today = date("Y-m-d");
+	$review_date = $today;
+	
+	//write review to database
+	$query = "
+		update review 
+		set
+			title = '$review_title', 
+			description = '$review_description', 
+			rating = '$review_rating', 
+			date = '$date'
+		where review_id = '$review_id';
+	";
+	
+	$result = $conn->query($query); 
+	if(!$result) die($conn->error);
+
+	$conn->close();
+	
+	header("Location: food-item-reviews?id=$review[food_item_id].php");
+}
+
+?>
+
 	</body>
 </html>
