@@ -114,7 +114,7 @@ if(isset($_POST["review-rating"]))	{
 
 	$conn->close();
 	
-	header("Location: food-item-reviews?id=$food_item_id.php");
+	header("Location: review-list.php?id=$food_item_id");
 }
 
 

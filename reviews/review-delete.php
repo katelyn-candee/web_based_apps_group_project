@@ -20,7 +20,7 @@ if(isset($_GET['review']))	{
 	$food_item_id = $_GET['food_item'];
 	
 	//return to food item reviews page
-	header("Location: food-item-reviews?id=$food_item_id.php");
+	header("Location: review-list.php?food_item=$food_item_id");
 
 }
 

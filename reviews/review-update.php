@@ -27,10 +27,10 @@ $member_id = 4;
 	if($conn->connect_error) die($conn->connect_error);
 
 //check if review id was passed
-if(isset($_GET['id']))	{
+if(isset($_GET['review']))	{
 
 	//get review id
-	$review_id = $_GET['id'];
+	$review_id = $_GET['review'];
 	
 	//get review data from database
 	$query = "
@@ -130,7 +130,7 @@ if(isset($_POST["review-rating"]))	{
 
 	$conn->close();
 	
-	header("Location: food-item-reviews?id=$review[food_item_id].php");
+	header("Location: review-list.php?food_item=$review[food_item_id]");
 }
 
 ?>

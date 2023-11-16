@@ -21,10 +21,10 @@ require_once "../db/login.php";
 require_once "../functions/star_rating.php";
 
 //check if food item id was passed
-if(isset($_GET['id']))	{
+if(isset($_GET['food_item']))	{
 
 	//get food item id
-	$food_item_id = $_GET['id'];
+	$food_item_id = $_GET['food_item'];
 
 	//create database connection
 	$conn = new mysqli($hn, $un, $pw, $db);
@@ -56,7 +56,7 @@ if(isset($_GET['id']))	{
 			</div>
 			<div class='row'>
 				<div class='col-sm-12'>
-					<a href='review-add.php?id=$food_item_id'><button>Add a review</button></a>
+					<a href='review-add.php?food_item=$food_item_id'><button>Add a review</button></a>
 				</div>
 			</div>
 		</div>
@@ -107,7 +107,7 @@ if(isset($_GET['id']))	{
 							$review[city], $review[state]
 						</div>
 						<div class='col-sm-6'>
-							<br><a href='review-update.php?id=$review[review_id]'>Update</a>
+							<br><a href='review-update.php?review=$review[review_id]'>Update</a>
 							<a href='review-delete.php?food_item=$food_item_id&review=$review[review_id]'>Delete</a>
 						</div>
 					</div> 
