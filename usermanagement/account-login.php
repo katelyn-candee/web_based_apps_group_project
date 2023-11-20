@@ -57,22 +57,45 @@
 
             <button type="submit">Login</button>
         </form>
-        <?php
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $username = $_POST["username"];
-            $password = $_POST["password"];
-
-            // Your authentication logic goes here.
-            // Check the username and password and redirect accordingly.
-            if ($username === "your_username" && $password === "your_password") {
-                // Successful login, you can redirect the user to another page.
-                header("Location: welcome.php");
-                exit();
-            } else {
-                echo "<p style='color: red; text-align: center;'>Invalid username or password.</p>";
-            }
-        }
-        ?>
     </div>
 </body>
 </html>
+<?php
+require_once 'login.php';
+require_once 'User.php';
+
+$conn = new mysqli($hn, $un, $pw, $db);
+if($conn->connect_error) die($conn->connect_error);
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $tmp_username = mysql_entities_fix_string($conn, $_POST['username']);
+	$tmp_password = mysql_entities_fix_string($conn, $_POST['password']);
+	
+	$query = "SELECT password FROM users WHERE username = '$tmp_username'";
+	
+	$result = $conn->query($query); 
+	if(!$result){die($conn->error);}
+	
+	$rows = $result->num_rows;
+	$passwordFromDB="";
+	
+	for($j=0; $j<$rows; $j++){
+		$result->data_seek($j); 
+		$row = $result->fetch_array(MYSQLI_ASSOC);
+		$passwordFromDB = $row['password'];
+	}
+	
+	if(password_verify($tmp_password,$passwordFromDB)){	
+		$user = new User($tmp_username);
+
+		session_start();
+		$_SESSION['user'] = $user;
+		
+		header("Location: home/home-page.php");
+		exit();
+	}else{
+        echo "<p style='color: red; text-align: center;'>Invalid username or password.</p>";
+    }
+}
+
+?>

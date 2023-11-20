@@ -1,9 +1,9 @@
 <?php
 // set db connection variables and credentials
 $hn = "localhost:3306";
-$db = "food_app";
+$db = "food";
 $un = "root";
-$pw = "";	//windows
+$pw = "root";	//windows
 //$pw = "root";	//mac
 
 ?>
