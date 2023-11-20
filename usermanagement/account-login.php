@@ -61,7 +61,7 @@
 </body>
 </html>
 <?php
-require_once 'login.php';
+require_once '../db/login.php';
 require_once 'User.php';
 
 $conn = new mysqli($hn, $un, $pw, $db);
@@ -71,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tmp_username = mysql_entities_fix_string($conn, $_POST['username']);
 	$tmp_password = mysql_entities_fix_string($conn, $_POST['password']);
 	
-	$query = "SELECT password FROM users WHERE username = '$tmp_username'";
+	$query = "SELECT password FROM user WHERE username = '$tmp_username'";
 	
 	$result = $conn->query($query); 
 	if(!$result){die($conn->error);}
@@ -85,17 +85,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		$passwordFromDB = $row['password'];
 	}
 	
-	if(password_verify($tmp_password,$passwordFromDB)){	
+	//if(password_verify($tmp_password,$passwordFromDB)){
+	if($tmp_password==$passwordFromDB){	
 		$user = new User($tmp_username);
 
 		session_start();
 		$_SESSION['user'] = $user;
 		
-		header("Location: home/home-page.php");
+		header("Location: ../home/home-page.php");
 		exit();
 	}else{
         echo "<p style='color: red; text-align: center;'>Invalid username or password.</p>";
     }
+}
+
+//sanitization functions
+function mysql_entities_fix_string($conn, $string){
+	return htmlentities(mysql_fix_string($conn, $string));	
+}
+
+function mysql_fix_string($conn, $string){
+	$string = stripslashes($string);
+	return $conn->real_escape_string($string);
 }
 
 ?>
