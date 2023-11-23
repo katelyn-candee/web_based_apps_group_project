@@ -19,7 +19,7 @@
 						<li><a href="#about">About</a></li>
 						<li><a href="#review">Write a Review</a></li>
 						<li><a href="#restaurants">Restaurants</a></li>
-						<li><a href="#profile">Profile</a></li>
+						<li><a href="../usermanagement/account-details.php?user_id=$row[user_id]">Profile</a></li>
 						<li><input type="text" placeholder="Search.."></li>
 		  			</ul>
 				</div>
