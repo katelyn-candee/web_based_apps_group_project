@@ -47,16 +47,16 @@ if(isset($_GET['category']))	{
 		select * from restaurant r
 		left join restaurant_rating rr
 			on r.restaurant_id = rr.restaurant_id
-		where lower(r.type)='$category';
+		where lower(r.type) like '%$category%';
 	";
 	
 	//display query results
 	displayRestaurantResults($query);
 	
-} else if(isset($_GET['search']))	{
+} else if(isset($_POST['search']))	{
 	
 	//get search
-	$search = $_GET['search'];
+	$search = $_POST['search'];
 	
 	//get restaurant data from database
 	$query = "

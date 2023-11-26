@@ -72,9 +72,10 @@ function displayRestaurantResults($query)	{
 				<div class='container-fluid'>
 					<div class='row'>
 						<div class='col-sm-8'>
-							<a href='restaurant-details.php?restaurant=$restaurant[restaurant_id]'><h3>$restaurant[name]</h3></a>
+							<h3>$restaurant[name]</h3></a>
 							<h4>$restaurant[type]</h4>
 							<p>$restaurant[description]</p>
+							<a href='../food/food-view.php?restaurant=$restaurant[restaurant_id]'><h4>View all food items</h4></a>
 			_END;
 			
 			echo	'<p>'.displayStarRating($restaurant['avg_rating']).' '.$restaurant['num_reviews'].' reviews</p>';
@@ -82,7 +83,6 @@ function displayRestaurantResults($query)	{
 			echo <<<_END
 						</div>
 						<div class='col-sm-4'>
-							<a href='restaurant-details.php?restaurant=$restaurant[restaurant_id]'><img src='$restaurant[photo]'></img></a>
 							<p>$restaurant[address]<br>
 							$restaurant[phone]<br>
 							$restaurant[website]</p>

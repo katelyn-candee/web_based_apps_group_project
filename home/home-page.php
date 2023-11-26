@@ -65,23 +65,32 @@
   			</a>
 		</div>
 		
+		<!-- Search form -->
+		<h1> Search </h1>
+		<div class='form' style='text-align:center'>
+			<form method='post' action='../restaurants/restaurant-list.php'>
+				<input type='text' name='search' value='e.g. italian'>
+				<submit type='button' value='Search'>
+			</form>
+		</div>
+		
 		<!-- Category Table-->
 		<h1> Categories </h1>
 			<table class="card-table">
 				<tr>
-					<td class="card"><a href="card-details.html"><h3>Fast Food</h3></a></td>
-					<td class="card"><a href="card-details.html"><h3>Food Trucks</h3></a></td>
-					<td class="card"><a href="card-details.html"><h3>Fine Dining</h3></a></td>
+					<td class="card"><a href="../restaurants/restaurant-list.php?category=indian"><h3>Indian</h3></a></td>
+					<td class="card"><a href="../restaurants/restaurant-list.php?category=southern"><h3>Southern</h3></a></td>
+					<td class="card"><a href="../restaurants/restaurant-list.php?category=seafood"><h3>Seafood</h3></a></td>
 				</tr>
 				<tr>
-					<td class="card"><a href="card-details.html"><h3>Italian Cuisine</h3></a></td>
-					<td class="card"><a href="card-details.html"><h3>Mexican Cuisine</h3></a></td>
-					<td class="card"><a href="card-details.html"><h3>Asian Cusine</h3></a></td>
+					<td class="card"><a href="../restaurants/restaurant-list.php?category=italian"><h3>Italian</h3></a></td>
+					<td class="card"><a href="../restaurants/restaurant-list.php?category=mediterranean"><h3>Mediterranean</h3></a></td>
+					<td class="card"><a href="../restaurants/restaurant-list.php?category=japanese"><h3>Japanese</h3></a></td>
 				</tr>
 				<tr>
-					<td class="card"><a href="card-details.html"><h3>Pizza</h3></a></td>
-					<td class="card"><a href="card-details.html"><h3>Steakhouse</h3></a></td>
-					<td class="card"><a href="card-details.html"><h3>Cafe</h3></a></td>
+					<td class="card"><a href="../restaurants/restaurant-list.php?category=vegetarian"><h3>Vegetarian</h3></a></td>
+					<td class="card"><a href="../restaurants/restaurant-list.php?category=steak"><h3>Steakhouse</h3></a></td>
+					<td class="card"><a href="../restaurants/restaurant-list.php?category=american"><h3>American</h3></a></td>
 				</tr>
 			</table>
 
