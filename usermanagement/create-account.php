@@ -126,7 +126,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $photo = $_POST["photo"];
             $owner_name = $_POST["owner_name"];
 
-            $query_restaurant = "INSERT INTO restaurant (user_id, name, type, description, address, phone, website, email, photo, owener_name) VALUES ('$user_id', '$name', '$type', '$description', '$address', '$phone', '$website', '$email', '$photo', '$owner_name')";
+            $query_restaurant = "INSERT INTO restaurant (user_id, name, type, description, address, phone, website, email, photo, owner_name) VALUES ('$user_id', '$name', '$type', '$description', '$address', '$phone', '$website', '$email', '$photo', '$owner_name')";
             $conn->query($query_restaurant);
         }
 
