@@ -1,49 +1,95 @@
-<?php
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food App Reviews</title>
+    <style>
+        body {
+            font-family: Times New Roman, sans-serif;
+            background-color: #EBEDD3;
+            margin: 0;
+            padding: 0;
+        }
 
-require_once  '../db/login.php';
+        header {
+            background-color: #EBEDD3;
+            color: #2F363E;
+            padding: 20px;
+            text-align: center;
+        }
 
+        form {
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-$conn = new mysqli($hn, $un, $pw, $db);
-if($conn->connect_error) die($conn->connect_error);
+        pre {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
 
-$query = "SELECT * FROM food_item";
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
 
-$result = $conn->query($query);
-if(!$result) die($conn->error);
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
 
-$rows = $result->num_rows;
+    <header>
+        <h1>Food App Reviews</h1>
+    </header>
 
-echo <<<_END
-	<form action='food-add.php' method='post'>
-		<input type='submit' value='ADD FOOD ITEM'>
-	</form>
+    <?php
+    require_once  '../db/login.php';
 
-_END;
+    $conn = new mysqli($hn, $un, $pw, $db);
+    if($conn->connect_error) die($conn->connect_error);
 
+    $query = "SELECT * FROM food_item";
 
-for($j=0; $j<$rows; ++$j){
-	//$result->data_seek($j);
-	$row = $result->fetch_array(MYSQLI_ASSOC);
+    $result = $conn->query($query);
+    if(!$result) die($conn->error);
 
-echo <<<_END
+    $rows = $result->num_rows;
+    ?>
 
-	<pre>
-	Image: $row[photo]
-	Name: <a href= 'food-details.php?food_item_id=$row[food_item_id]'>$row[name]</a>
-	Type: $row[type]
-	Price: $row[price]	
-	</pre>
-	
-_END;
+    <form action='food-add.php' method='post'>
+        <button style="padding: 10px 20px; font-size: 16px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">ADD FOOD ITEM</button>
+    </form>
 
-}
+    <?php
+    for($j=0; $j<$rows; ++$j){
+        $row = $result->fetch_array(MYSQLI_ASSOC);
+    ?>
 
+    <pre>
+        <img src="<?php echo $row['photo']; ?>" alt="Food Image">
+        <strong>Name:</strong> <a href="food-details.php?food_item_id=<?php echo $row['food_item_id']; ?>"><?php echo $row['name']; ?></a><br>
+        <strong>Type:</strong> <?php echo $row['type']; ?><br>
+        <strong>Price:</strong> <?php echo $row['price']; ?>
+    </pre>
 
-// Close the connection
-$conn->close();
-?>
+    <?php
+    }
+
+    $conn->close();
+    ?>
+
+</body>
+</html>
