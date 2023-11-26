@@ -79,7 +79,10 @@ if (isset($_GET['food_item_id'])) {
 
     $food_item_id = $_GET['food_item_id'];
 
-    $query = "SELECT * FROM food_item where food_item_id=$food_item_id ";
+    $query = "SELECT f.food_item_id, f.restaurant_id, f.name, f.description, f.type, f.price, f.photo, AVG(r.rating) AS 'rating' FROM food_item as f
+	JOIN review as r ON f.food_item_id = r.food_item_id
+	WHERE f.food_item_id=$food_item_id
+	GROUP BY food_item_id, restaurant_id, name, description, type, price, photo; ";
 
     $result = $conn->query($query);
     if (!$result) die($conn->error);
@@ -105,8 +108,11 @@ if (isset($_GET['food_item_id'])) {
                 <label for="type">Type:</label>
                 <input type='text' name='type' value='<?php echo $row['type']; ?>' required>
 
-                <label for="price">Price:</label>
+                <label for="price">Price: $</label>
                 <input type='number' name='price' value='<?php echo $row['price']; ?>' required>
+				
+				<label for="rating">Average Rating:</label>
+                <input type='number' name='rating' value='<?php echo $row['rating']; ?>' required readonly>
 
                 <label for="photo">Image Path:</label>
                 <input type='text' name='photo' value='<?php echo $photo; ?>' required>

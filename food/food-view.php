@@ -24,13 +24,17 @@
             margin-bottom: 20px;
         }
 
-        pre {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+		pre {
+			display: flex;
+			flex-direction: column;
+			background-color: #fff;
+			padding: 20px;
+			align-items: left;
+			border-radius: 8px;
+			margin: 20px 0;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+		}
+
 
         img {
             max-width: 100%;
@@ -52,7 +56,7 @@
 <body>
 
     <header>
-        <h1>Food App Reviews</h1>
+        <h1>Food Items</h1>
     </header>
 
     <?php
@@ -61,7 +65,9 @@
     $conn = new mysqli($hn, $un, $pw, $db);
     if($conn->connect_error) die($conn->connect_error);
 
-    $query = "SELECT * FROM food_item";
+    $query = "SELECT f.food_item_id, f.restaurant_id, f.name, f.description, f.type, f.price, f.photo, AVG(r.rating) AS 'rating' FROM food_item as f
+	JOIN review as r ON f.food_item_id = r.food_item_id
+	GROUP BY food_item_id, restaurant_id, name, description, type, price, photo;";
 
     $result = $conn->query($query);
     if(!$result) die($conn->error);
@@ -79,10 +85,11 @@
     ?>
 
     <pre>
-        <img src="<?php echo $row['photo']; ?>" alt="Food Image">
-        <strong>Name:</strong> <a href="food-details.php?food_item_id=<?php echo $row['food_item_id']; ?>"><?php echo $row['name']; ?></a><br>
-        <strong>Type:</strong> <?php echo $row['type']; ?><br>
-        <strong>Price:</strong> <?php echo $row['price']; ?>
+        <img src="<?php echo $row['photo']; ?>" alt="Food Image"><br>
+        <strong>Name:<a href="food-details.php?food_item_id=<?php echo $row['food_item_id']; ?>"><?php echo $row['name']; ?></a></strong><br>
+        <strong>Type: <?php echo $row['type']; ?></strong><br>
+        <strong>Price: $ <?php echo $row['price']; ?></strong><br>
+		<strong>Average Rating: <a href="../reviews/review-list.php?food_item=<?php echo $row['food_item_id']; ?>"><?php echo $row['rating']; ?></a></strong>
     </pre>
 
     <?php
