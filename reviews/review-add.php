@@ -27,10 +27,10 @@ $member_id = 4;
 	if($conn->connect_error) die($conn->connect_error);
 
 //check if food item id was passed
-if(isset($_GET['id']))	{
+if(isset($_GET['food_item']))	{
 
 	//get food item id
-	$food_item_id = $_GET['id'];
+	$food_item_id = $_GET['food_item'];
 	
 	//get food item name from database
 	$query = "

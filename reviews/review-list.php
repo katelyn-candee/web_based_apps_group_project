@@ -96,23 +96,42 @@ if(isset($_GET['food_item']))	{
 			
 			echo '<h2>'.displayStarRating($review['rating']).'</h2>';
 			
-			echo <<<_END
-							<h3>$review[title]</h3>
-							<p>$review[description]</p>
-						</div>	
+			$user = $_SESSION['user'];
+			$user_id = $user->user_id;
+			if($user_id == $review['user_id']{
+				echo <<<_END
+								<h3>$review[title]</h3>
+								<p>$review[description]</p>
+							</div>	
+						</div>
+						<div class='row'>
+							<div class='col-sm-6'>
+								$review[first_name]<br>
+								$review[city], $review[state]
+							</div>
+								<div class='col-sm-6'>
+								<br><a href='review-update.php?review=$review[review_id]'>Update</a>
+								<a href='review-delete.php?food_item=$food_item_id&review=$review[review_id]'>Delete</a>
+							</div>
+						</div> 
 					</div>
-					<div class='row'>
-						<div class='col-sm-6'>
-							$review[first_name]<br>
-							$review[city], $review[state]
+				_END;
+			} else {
+				//don't show buttons
+				echo <<<_END
+								<h3>$review[title]</h3>
+								<p>$review[description]</p>
+							</div>	
 						</div>
-						<div class='col-sm-6'>
-							<br><a href='review-update.php?review=$review[review_id]'>Update</a>
-							<a href='review-delete.php?food_item=$food_item_id&review=$review[review_id]'>Delete</a>
-						</div>
-					</div> 
-				</div>
-			_END;
+						<div class='row'>
+							<div class='col-sm-6'>
+								$review[first_name]<br>
+								$review[city], $review[state]
+							</div>
+						</div> 
+					</div>
+				_END;
+			}
 		}
 	} else	{
 		echo <<<_END
