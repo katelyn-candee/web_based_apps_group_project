@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>Restaurants</title>
+		<title>Reviews</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<link rel="stylesheet" href="food-style.css"> 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -14,22 +14,15 @@
 				</div>	
 			</div>
 		</div>
-		<div class='container-fluid'>
-			<div class='row'>
-				<div class="col-sm-12">
-					<h2>Results</h2>
-				</div>	
-			</div>
-		</div>
 
 <?php
 
 
-//check if restaurant category was passed
-if(isset($_GET['category']))	{
+//check if restaurant id was passed
+if(isset($_GET['restaurant']))	{
 
-	//get category
-	$category = $_GET['category'];
+	//get restaurant
+	$restaurant_id = $_GET['restaurant'];
 	
 	//get restaurant data from database
 	$query = "
@@ -47,64 +40,12 @@ if(isset($_GET['category']))	{
 		select * from restaurant r
 		left join restaurant_rating rr
 			on r.restaurant_id = rr.restaurant_id
-		where lower(r.type)='$category';
+		where r.restaurant_id='$restaurant_id';
 	";
 	
 	//display query results
 	displayRestaurantResults($query);
 	
-} else if(isset($_GET['search']))	{
-	
-	//get search
-	$search = $_GET['search'];
-	
-	//get restaurant data from database
-	$query = "
-		with restaurant_rating as (
-			select 
-				f.restaurant_id,
-				round(avg(r.rating),0) as avg_rating,
-				count(distinct r.review_id) as num_reviews
-			from review r
-			left join food_item f
-				on r.food_item_id = f.food_item_id
-			group by f.restaurant_id
-		   )
-		   
-		select * from restaurant r
-		left join restaurant_rating rr
-			on r.restaurant_id = rr.restaurant_id
-		where lower(r.name) like lower('%$search%')
-			or lower(r.type) like lower('%$search%')
-			or lower(r.description) like lower('%$search%')
-			or lower(r.address) like lower('%$search%');
-	";
-	
-	//display query results
-	displayRestaurantResults($query);
-	
-} else	{
-	
-	//get restaurant data from database
-	$query = "
-		with restaurant_rating as (
-			select 
-				f.restaurant_id,
-				round(avg(r.rating),0) as avg_rating,
-				count(distinct r.review_id) as num_reviews
-			from review r
-			left join food_item f
-				on r.food_item_id = f.food_item_id
-			group by f.restaurant_id
-		   )
-		   
-		select * from restaurant r
-		left join restaurant_rating rr
-			on r.restaurant_id = rr.restaurant_id
-	";
-	
-	//display query results
-	displayRestaurantResults($query);
 }
 
 function displayRestaurantResults($query)	{
