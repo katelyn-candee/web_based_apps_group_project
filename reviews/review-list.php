@@ -19,6 +19,9 @@
 //import functions
 require_once "../db/login.php";
 require_once "../functions/star_rating.php";
+require_once "../usermanagement/User.php";
+
+session_start();
 
 //check if food item id was passed
 if(isset($_GET['food_item']))	{
@@ -66,6 +69,7 @@ if(isset($_GET['food_item']))	{
 	$query = "
 		select
 		r.*,
+		m.user_id,
 		m.first_name,
 		m.last_name,
 		m.city,
@@ -95,29 +99,56 @@ if(isset($_GET['food_item']))	{
 			_END;
 			
 			echo '<h2>'.displayStarRating($review['rating']).'</h2>';
-			
-			$user = $_SESSION['user'];
-			$user_id = $user->user_id;
-			if($user_id == $review['user_id']{
-				echo <<<_END
-								<h3>$review[title]</h3>
-								<p>$review[description]</p>
-							</div>	
-						</div>
-						<div class='row'>
-							<div class='col-sm-6'>
-								$review[first_name]<br>
-								$review[city], $review[state]
+						
+			if(isset($_SESSION['user'])){
+				
+				//get session user info
+				$user = $_SESSION['user'];
+				$user_id = $user->user_id;
+				$user_roles[] = $user->getRoles();
+				
+				//check if review blongs to logged in user
+				//or if logged in user is an administrator
+				if($user_id == $review['user_id']
+						or in_array('admin', $user_roles)){
+					
+					//display review with update and delete links
+					echo <<<_END
+									<h3>$review[title]</h3>
+									<p>$review[description]</p>
+								</div>	
 							</div>
+							<div class='row'>
 								<div class='col-sm-6'>
-								<br><a href='review-update.php?review=$review[review_id]'>Update</a>
-								<a href='review-delete.php?food_item=$food_item_id&review=$review[review_id]'>Delete</a>
+									$review[first_name]<br>
+									$review[city], $review[state]
+								</div>
+								<div class='col-sm-6'>
+									<br><a href='review-update.php?review=$review[review_id]'>Update</a>
+									<a href='review-delete.php?food_item=$food_item_id&review=$review[review_id]'>Delete</a>
+								</div>
+							</div> 
+						</div>
+					_END;
+				} else {
+					//do not show update and delete buttons
+					echo <<<_END
+									<h3>$review[title]</h3>
+									<p>$review[description]</p>
+								</div>	
 							</div>
-						</div> 
-					</div>
-				_END;
+							<div class='row'>
+								<div class='col-sm-6'>
+									$review[first_name]<br>
+									$review[city], $review[state]
+								</div>
+							</div> 
+						</div>
+					_END;
+					
+				}
 			} else {
-				//don't show buttons
+				//do not show update and delete buttons
 				echo <<<_END
 								<h3>$review[title]</h3>
 								<p>$review[description]</p>
@@ -150,7 +181,7 @@ if(isset($_GET['food_item']))	{
 }
 
 ?>
-
+	<br><br>
 	</body>
 </html>
 
