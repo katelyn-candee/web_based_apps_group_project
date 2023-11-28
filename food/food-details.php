@@ -43,7 +43,7 @@
         }
 
         img {
-            max-width: 100%;
+            max-width: 50%;
             height: auto;
             margin-bottom: 20px;
         }
@@ -106,10 +106,9 @@ if (isset($_GET['food_item_id'])) {
 
     $food_item_id = $_GET['food_item_id'];
 
-    $query = "SELECT f.food_item_id, f.restaurant_id, f.name, f.description, f.type, f.price, f.photo, AVG(r.rating) AS 'rating' FROM food_item as f
-	JOIN review as r ON f.food_item_id = r.food_item_id
+    $query = "SELECT f.food_item_id, f.restaurant_id, f.name, rest.name AS 'r_name', f.description, f.type, f.price, f.photo, AVG(r.rating) AS 'rating' FROM food_item as f LEFT JOIN review as r ON f.food_item_id = r.food_item_id join restaurant as rest on f.restaurant_id = rest.restaurant_id 
 	WHERE f.food_item_id=$food_item_id
-	GROUP BY food_item_id, restaurant_id, name, description, type, price, photo;";
+	GROUP BY food_item_id, restaurant_id, name, description, type, price, photo, r_name;";
 
     $result = $conn->query($query);
     if (!$result) die($conn->error);
@@ -127,6 +126,10 @@ if (isset($_GET['food_item_id'])) {
             <form action='food-update.php?food_item_id=<?php echo $row['food_item_id']; ?>' method='post'>
 			
 				<img src='<?php echo $photo; ?>' alt='Food Item Photo'>
+				
+				<label for="name">Restaurant:</label>
+                <input type='text' name='name' value='<?php echo $row['r_name']; ?>' required readonly>
+				
                 <label for="name">Name:</label>
                 <input type='text' name='name' value='<?php echo $row['name']; ?>' required readonly>
 

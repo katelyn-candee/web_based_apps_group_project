@@ -79,10 +79,9 @@ if (isset($_GET['food_item_id'])) {
 
     $food_item_id = $_GET['food_item_id'];
 
-    $query = "SELECT f.food_item_id, f.restaurant_id, f.name, f.description, f.type, f.price, f.photo, AVG(r.rating) AS 'rating' FROM food_item as f
-	JOIN review as r ON f.food_item_id = r.food_item_id
+    $query = "SELECT f.food_item_id, f.restaurant_id, f.name, rest.name AS 'r_name', f.description, f.type, f.price, f.photo, AVG(r.rating) AS 'rating' FROM food_item as f LEFT JOIN review as r ON f.food_item_id = r.food_item_id join restaurant as rest on f.restaurant_id = rest.restaurant_id 
 	WHERE f.food_item_id=$food_item_id
-	GROUP BY food_item_id, restaurant_id, name, description, type, price, photo; ";
+	GROUP BY food_item_id, restaurant_id, name, description, type, price, photo, r_name; ";
 
     $result = $conn->query($query);
     if (!$result) die($conn->error);
@@ -99,6 +98,10 @@ if (isset($_GET['food_item_id'])) {
 
             <form action='food-update.php' method='post'>
                 <img src='<?php echo $photo; ?>' alt='Food Item Photo'>
+				
+				<label for="r_name">Restaurant:</label>
+                <input type='text' name='r_name' value='<?php echo $row['r_name']; ?>' readonly>
+				
                 <label for="name">Name:</label>
                 <input type='text' name='name' value='<?php echo $row['name']; ?>' required>
 
@@ -118,6 +121,7 @@ if (isset($_GET['food_item_id'])) {
                 <input type='text' name='photo' value='<?php echo $photo; ?>' required>
 
                 <input type='hidden' name='update' value='yes'>
+				<input type='hidden' name='restaurant_id' value='<?php echo $row['restaurant_id']; ?>'>
                 <input type='hidden' name='food_item_id' value='<?php echo $row['food_item_id']; ?>'>
 
                 <button type='submit' class='btn'>UPDATE RECORD</button>
@@ -142,13 +146,14 @@ if (isset($_POST['update'])) {
     $description = $_POST['description'];
     $price = $_POST['price'];
     $imagepath = $_POST['photo'];
+	$restaurant_id = $_POST['restaurant_id'];
 
     $query = "UPDATE food_item SET name='$name', type='$type', description='$description', price='$price', photo='$imagepath' WHERE food_item_id = $food_item_id ";
 
     $result = $conn->query($query);
     if (!$result) die($conn->error);
 
-    header("Location: food-view.php");
+    header("Location: food-view.php?restaurant=$restaurant_id");
 }
 
 $conn->close();
