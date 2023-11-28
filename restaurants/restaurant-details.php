@@ -17,7 +17,6 @@
 
 <?php
 
-
 //check if restaurant id was passed
 if(isset($_GET['restaurant']))	{
 
