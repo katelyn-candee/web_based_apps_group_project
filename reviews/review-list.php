@@ -90,6 +90,9 @@ if(isset($_GET['food_item']))	{
 		//display reviews
 		for ($i=0; $i<$rows; $i++)	{
 			$review = $result->fetch_array(MYSQLI_ASSOC);
+			
+			$review_date = new DateTime($review['date']);
+			$review_date = $review_date->format("M j, Y");
 
 			echo <<<_END
 				<div class='container-fluid'>
@@ -119,15 +122,20 @@ if(isset($_GET['food_item']))	{
 								</div>	
 							</div>
 							<div class='row'>
+								<div class='col-sm-12'>
+									<p>$review[first_name]<br>
+									$review[city], $review[state]<br></p>
+								</div>
+							</div>
+							<div class='row'>
 								<div class='col-sm-6'>
-									$review[first_name]<br>
-									$review[city], $review[state]
+									<p>Last updated $review_date</p>
 								</div>
 								<div class='col-sm-6'>
-									<br><a href='review-update.php?review=$review[review_id]'>Update</a>
-									<a href='review-delete.php?food_item=$food_item_id&review=$review[review_id]'>Delete</a>
+									<p><a href='review-update.php?review=$review[review_id]'>Update</a>
+									<a href='review-delete.php?food_item=$food_item_id&review=$review[review_id]'>Delete</a></p>
 								</div>
-							</div> 
+							</div>
 						</div>
 					_END;
 				} else {
@@ -138,11 +146,16 @@ if(isset($_GET['food_item']))	{
 								</div>	
 							</div>
 							<div class='row'>
-								<div class='col-sm-6'>
-									$review[first_name]<br>
-									$review[city], $review[state]
+								<div class='col-sm-12'>
+									<p>$review[first_name]<br>
+									$review[city], $review[state]<br></p>
 								</div>
-							</div> 
+							</div>
+							<div class='row'>
+								<div class='col-sm-6'>
+									<p>Last updated $review_date</p>
+								</div>
+							</div>
 						</div>
 					_END;
 					
@@ -155,11 +168,16 @@ if(isset($_GET['food_item']))	{
 							</div>	
 						</div>
 						<div class='row'>
-							<div class='col-sm-6'>
-								$review[first_name]<br>
-								$review[city], $review[state]
+								<div class='col-sm-12'>
+									<p>$review[first_name]<br>
+									$review[city], $review[state]<br></p>
+								</div>
 							</div>
-						</div> 
+							<div class='row'>
+								<div class='col-sm-6'>
+									<p>Last updated $review_date</p>
+								</div>
+							</div> 
 					</div>
 				_END;
 			}

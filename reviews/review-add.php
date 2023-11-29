@@ -18,16 +18,37 @@
 <?php
 //import functions
 require_once "../db/login.php";
+require_once "../usermanagement/User.php";
+
+$page_roles = array("admin", "member");
+
+require_once "../usermanagement/checksession.php";
 
 //for development until we learn how to get user info
-$member_id = 4;
+//$member_id = 4;
 
 //create database connection
 	$conn = new mysqli($hn, $un, $pw, $db);
 	if($conn->connect_error) die($conn->connect_error);
 
-//check if food item id was passed
-if(isset($_GET['food_item']))	{
+//check if food item id was passed and user is logged in
+if(isset($_GET['food_item']) and isset($_SESSION['user']))	{
+
+	//get user id
+	$user = $_SESSION['user'];
+	$user_id = $user->user_id;
+	
+	//get user member info from database
+	$query = "
+		select *
+		from member
+		where user_id='$user_id';
+	";
+	
+	$result = $conn->query($query);
+	
+	if(!$result) die($conn->error);	
+	$member = $result->fetch_array(MYSQLI_ASSOC);
 
 	//get food item id
 	$food_item_id = $_GET['food_item'];
@@ -72,6 +93,7 @@ if(isset($_GET['food_item']))	{
 							Review title: <input type='text' name='review-title'></input><br><br>
 							Review description: <input type='text' name='review-description'></input><br><br>
 						</div>
+							<input type='hidden' name='member_id' value='$member[member_id]'>
 							<input type='submit' value='Add review'></input>
 					</form>
 				</div>
@@ -84,10 +106,10 @@ if(isset($_GET['food_item']))	{
 if(isset($_POST["review-rating"]))	{
 	//rating
 	$review_rating = $_POST['review-rating'];
-	if(isset($_POST["review-title"]))	{
 	
 	//title
-	$review_title = $_POST['review-title'];
+	if(isset($_POST["review-title"]))	{
+		$review_title = $_POST['review-title'];
 	} else {
 		$review_title = "";
 	}
@@ -103,6 +125,9 @@ if(isset($_POST["review-rating"]))	{
 	$today = date("Y-m-d");
 	$review_date = $today;
 	
+	//member id
+	$member_id = $_POST["member_id"];
+	
 	//write review to database
 	$query = "
 		insert into review (food_item_id, member_id, title, description, rating, date)
@@ -114,7 +139,7 @@ if(isset($_POST["review-rating"]))	{
 
 	$conn->close();
 	
-	header("Location: review-list.php?id=$food_item_id");
+	header("Location: review-list.php?food_item=$food_item_id");
 }
 
 

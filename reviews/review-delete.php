@@ -1,5 +1,10 @@
 <?php
-require_once  '../db/login.php';
+require_once "../db/login.php";
+require_once "../usermanagement/User.php";
+
+$page_roles = array("admin", "member");
+
+require_once "../usermanagement/checksession.php";
 
 //connect to database
 $conn = new mysqli($hn, $un, $pw, $db);

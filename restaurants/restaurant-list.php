@@ -134,17 +134,19 @@ function displayRestaurantResults($query)	{
 							<a href='restaurant-details.php?restaurant=$restaurant[restaurant_id]'><h3>$restaurant[name]</h3></a>
 							<h4>$restaurant[type]</h4>
 							<p>$restaurant[description]</p>
+							
 			_END;
 			
 			echo	'<p>'.displayStarRating($restaurant['avg_rating']).' '.$restaurant['num_reviews'].' reviews</p>';
 			
 			echo <<<_END
-						</div>
-						<div class='col-sm-4'>
-							<a href='restaurant-details.php?restaurant=$restaurant[restaurant_id]'><img src='$restaurant[photo]'></img></a>
 							<p>$restaurant[address]<br>
 							$restaurant[phone]<br>
 							$restaurant[website]</p>
+						</div>
+						<div class='col-sm-4'>
+							<p><br><a href='restaurant-details.php?restaurant=$restaurant[restaurant_id]'><img src='../$restaurant[photo]' style='height:240px'></img></a></p>
+							
 						</div>
 					</div> 
 				</div>

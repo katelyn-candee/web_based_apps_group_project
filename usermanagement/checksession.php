@@ -5,7 +5,7 @@ require_once 'User.php';
 session_start();
 
 if(!isset($_SESSION['user'])){
-	header("Location: loginScreen.php");
+	header("Location: account-login.php");
 	exit();
 }else{
 	$user = $_SESSION['user'];

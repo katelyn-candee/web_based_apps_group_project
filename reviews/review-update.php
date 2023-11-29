@@ -18,9 +18,11 @@
 <?php
 //import functions
 require_once "../db/login.php";
+require_once "../usermanagement/User.php";
 
-//for development until we learn how to get user info
-$member_id = 4;
+$page_roles = array("admin", "member");
+
+require_once "../usermanagement/checksession.php";
 
 //create database connection
 	$conn = new mysqli($hn, $un, $pw, $db);
@@ -121,7 +123,7 @@ if(isset($_POST["review-rating"]))	{
 			title = '$review_title', 
 			description = '$review_description', 
 			rating = '$review_rating', 
-			date = '$date'
+			date = '$review_date'
 		where review_id = '$review_id';
 	";
 	
