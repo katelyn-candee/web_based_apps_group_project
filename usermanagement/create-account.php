@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -103,7 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $role = $_POST["role"];
 
     $query = "INSERT INTO user (username, password, role) VALUES ('$username', '$password', '$role')";
-//not posting to restaurant table 
+
     if ($conn->query($query)) {
         $user_id = $conn->insert_id; 
 

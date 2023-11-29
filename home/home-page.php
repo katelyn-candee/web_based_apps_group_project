@@ -17,53 +17,80 @@
 				<div class="collapse navbar-collapse" id="myNavbar">
 		  			<ul class="nav navbar-nav navbar-right">
 						<li><a href="#about">About</a></li>
-						<li><a href="#review">Write a Review</a></li>
 						<li><a href="#restaurants">Restaurants</a></li>
-						<li><a href="../usermanagement/account-details.php?user_id=$row[user_id]">Profile</a></li>
-						<li><input type="text" placeholder="Search.."></li>
+						<li><a href="../usermanagement/account-details.php">Profile</a></li>
 		  			</ul>
 				</div>
 	  		</div>
 		</nav>
-		<!--Jumbotron-->
-		<!--<div class="jumbotron text-center">
-			<h1>Site Name Here</h1>
-			<p>Write out
-		</div> -->
-		
-		<h1>Featured Restaurants</h1>
-		<!-- Carousel of Restaurants -->
-		<div id="myCarousel" class="carousel slide" data-ride="carousel">
- 		<!-- Indicators -->
-  			<ol class="carousel-indicators">
-    			<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-    			<li data-target="#myCarousel" data-slide-to="1"></li>
-    			<li data-target="#myCarousel" data-slide-to="2"></li>
-  			</ol>
 
-  		<!-- Wrapper for slides -->
-  		<div class="carousel-inner" role="listbox">
-      		<div class="item active">
-        		<h4><img src="salad.jpeg" width="225" height ="175"><br><br>"This company is the best. I am so happy with the result!"<br><span>Michael Roe, Vice President, Comment Box</span></h4>
-      		</div>
-     		<div class="item">
-        		<h4><img src="rice.jpg" width="225" height ="175"><br><br>"One word... WOW!!"<br><span>John Doe, Salesman, Rep Inc</span></h4>
-      		</div>
-      		<div class="item">
-        		<h4><img src="burrito.jpg.webp" width="225" height ="175"><br><br>"Could I... BE any more happy with this company?"<br><span>Chandler Bing, Actor, FriendsAlot</span></h4>
-      		</div>
-    	</div>
+	<!--Carousel-->	
+<?php
+$page_roles = array('admin','member','restaurant');
+require_once '../db/login.php';
+require_once '../usermanagement/checksession.php';
 
-  		<!-- Left and right controls -->
-  			<a class="left carousel-control" href="#myCarousel" data-slide="prev">
-    			<span class="glyphicon glyphicon-chevron-left"></span>
-    			<span class="sr-only">Previous</span>
-  			</a>
-  			<a class="right carousel-control" href="#myCarousel" data-slide="next">
-    			<span class="glyphicon glyphicon-chevron-right"></span>
-    			<span class="sr-only">Next</span>
-  			</a>
-		</div>
+$conn = new mysqli($hn, $un, $pw, $db);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$query = "SELECT * FROM review ORDER BY review_id DESC LIMIT 5;";
+
+$result = $conn->query($query);
+
+if ($result->num_rows > 0) {
+    echo '<h1>Check out these recent reviews!</h1>';
+    echo '<div id="myCarousel" class="carousel slide" data-ride="carousel">';
+    echo '<ol class="carousel-indicators">';
+
+    // carousel indicators
+    $indicatorIndex = 0;
+    while ($row = $result->fetch_assoc()) {
+        $active = ($indicatorIndex == 0) ? 'active' : ''; // Set 'active' only for the first indicator
+        echo '<li data-target="#myCarousel" data-slide-to="' . $indicatorIndex . '" class="' . $active . '"></li>';
+        $indicatorIndex++;
+    }
+    echo '</ol>';
+
+    $result->data_seek(0);
+
+    echo '<div class="carousel-inner" role="listbox">';
+
+    // carousel items
+    while ($row = $result->fetch_assoc()) {
+        $active = ($active == 'active') ? '' : 'active'; // Toggle 'active' for each item
+        echo '<div class="item ' . $active . '">';
+        echo '<h3>';
+        echo '<br><br><br>';
+        echo '<strong>' . $row['title'] . '</strong><br><br>';
+        echo '<p>' . $row['description'] . '</p><br>';
+        echo '<strong>Rating:</strong> ' . $row['rating'] . ' Stars<br>';
+        echo '<strong>Date Posted:</strong> ' . $row['date'] . '<br>';
+        echo '</h3>';
+        echo '</div>';
+    }
+
+    echo '</div>';
+
+    // left and right controls
+    echo '<a class="left carousel-control" href="#myCarousel" data-slide="prev">';
+    echo '<span class="glyphicon glyphicon-chevron-left"></span>';
+    echo '<span class="sr-only">Previous</span>';
+    echo '</a>';
+
+    echo '<a class="right carousel-control" href="#myCarousel" data-slide="next">';
+    echo '<span class="glyphicon glyphicon-chevron-right"></span>';
+    echo '<span class="sr-only">Next</span>';
+    echo '</a>';
+
+    echo '</div>'; 
+}
+
+$conn->close();
+?>
+
 		
 		<!-- Search form -->
 		<h1> Search </h1>
@@ -94,38 +121,6 @@
 				</tr>
 			</table>
 
-		<!--Recent Reviews Table-->
-		<h2> Recent Activity </h2>
-		<table class="card-table">
-        	<tr>
-            	<td class="card">
-                	<h3>Review 1</h3>
-                	<p>This is a recent review!</p>
-            	</td>
-            	<td class="card">
-                	<h3>Review 2</h3>
-                	<p>This is a recent review!</p>
-            	</td>
-            	<td class="card">
-                	<h3>Review 3</h3>
-                	<p>This is a recent review!</p>
-            	</td>
-        	</tr>
-        	<tr>
-            	<td class="card">
-                	<h3>Review 4</h3>
-                	<p>This is a recent review!</p>
-            	</td>
-            	<td class="card">
-                	<h3>Review 5</h3>
-                	<p>This is a recent review!</p>
-            	</td>
-            	<td class="card">
-                	<h3>Review 6</h3>
-               	 <p>This is a recent review!</p>
-            	</td>
-        	</tr>
-    	</table>
     	
     	<br><br><br><br>
 

@@ -5,7 +5,11 @@ require_once 'User.php';
 session_start();
 
 if(!isset($_SESSION['user'])){
+<<<<<<< Updated upstream
 	header("Location: account-login.php");
+=======
+	header("Location: ../usermanagement/account-login.php");
+>>>>>>> Stashed changes
 	exit();
 }else{
 	$user = $_SESSION['user'];

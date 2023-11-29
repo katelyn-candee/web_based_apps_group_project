@@ -44,7 +44,9 @@ class User{
 
 }
 
-
+//$user = new User('test');
+//$roles = $user->getRoles();
+//print_r($roles);
 
 
 
