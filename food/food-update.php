@@ -72,6 +72,12 @@
 <?php
 require_once '../db/login.php';
 
+require_once "../usermanagement/User.php";
+
+$page_roles = array("admin", "restaurant");
+
+require_once "../usermanagement/checksession.php";
+
 $conn = new mysqli($hn, $un, $pw, $db);
 if ($conn->connect_error) die($conn->connect_error);
 

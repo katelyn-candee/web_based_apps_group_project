@@ -95,6 +95,11 @@
 <?php
 // Import credentials for db
 require_once '../db/login.php';
+require_once "../usermanagement/User.php";
+
+$page_roles = array("admin", "restaurant");
+
+require_once "../usermanagement/checksession.php";
 
 // Connect to db
 $conn = new mysqli($hn, $un, $pw, $db);
