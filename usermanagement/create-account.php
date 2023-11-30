@@ -100,9 +100,10 @@ if ($conn->connect_error) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"];
     $password = $_POST["password"];
+    $token = password_hash($password, PASSWORD_DEFAULT); // Hash the password
     $role = $_POST["role"];
 
-    $query = "INSERT INTO user (username, password, role) VALUES ('$username', '$password', '$role')";
+    $query = "INSERT INTO user (username, password, role) VALUES ('$username', '$token', '$role')";
 
     if ($conn->query($query)) {
         $user_id = $conn->insert_id; 
@@ -130,11 +131,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $conn->query($query_restaurant);
         }
 
-        header("Location: ../home/home-page.php");
+        header("Location: ../usermanagement/account-login.php");
     } else {
         echo "Error creating account: ".$conn->error;
     }
 }
 
 $conn->close();
+
+
 ?>

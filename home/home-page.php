@@ -16,9 +16,10 @@
 				</div>
 				<div class="collapse navbar-collapse" id="myNavbar">
 		  			<ul class="nav navbar-nav navbar-right">
-						<li><a href="#about">About</a></li>
-						<li><a href="#restaurants">Restaurants</a></li>
+		  				<li><a href="../home/home-page.php">Home</a></li>
+						<li><a href="../restaurants/restaurant-list.php">Restaurants</a></li>
 						<li><a href="../usermanagement/account-details.php">Profile</a></li>
+						<li><a href="../usermanagement/account-login.php">LOGOUT</a></li>
 		  			</ul>
 				</div>
 	  		</div>
