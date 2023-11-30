@@ -2,10 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3306
--- Generation Time: Nov 28, 2023 at 09:25 PM
--- Server version: 8.0.31
--- PHP Version: 8.0.26
+-- Host: localhost:8889
+-- Generation Time: Nov 30, 2023 at 10:14 PM
+-- Server version: 5.7.39
+-- PHP Version: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,7 +20,7 @@ SET time_zone = "+00:00";
 --
 -- Database: `food_app`
 --
-CREATE DATABASE IF NOT EXISTS `food_app` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+CREATE DATABASE IF NOT EXISTS `food_app` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `food_app`;
 
 -- --------------------------------------------------------
@@ -30,17 +30,15 @@ USE `food_app`;
 --
 
 DROP TABLE IF EXISTS `food_item`;
-CREATE TABLE IF NOT EXISTS `food_item` (
-  `food_item_id` int NOT NULL AUTO_INCREMENT,
-  `restaurant_id` int NOT NULL,
+CREATE TABLE `food_item` (
+  `food_item_id` int(11) NOT NULL,
+  `restaurant_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `description` text,
   `type` varchar(50) NOT NULL,
   `price` decimal(8,2) NOT NULL,
-  `photo` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`food_item_id`),
-  KEY `restaurant_id` (`restaurant_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=96 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `photo` varchar(255) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `food_item`
@@ -100,16 +98,14 @@ INSERT INTO `food_item` (`food_item_id`, `restaurant_id`, `name`, `description`,
 --
 
 DROP TABLE IF EXISTS `member`;
-CREATE TABLE IF NOT EXISTS `member` (
-  `member_id` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `member` (
+  `member_id` int(11) NOT NULL,
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
   `city` varchar(255) NOT NULL,
   `state` varchar(255) NOT NULL,
-  `user_id` int NOT NULL,
-  PRIMARY KEY (`member_id`),
-  KEY `user_id` (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `user_id` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `member`
@@ -144,7 +140,8 @@ INSERT INTO `member` (`member_id`, `first_name`, `last_name`, `city`, `state`, `
 (26, 'Samantha', 'Williams', 'Houston', 'TX', 46),
 (27, 'Ryan', 'Anderson', 'Chicago', 'IL', 47),
 (28, 'Sophie', 'Martinez', 'Los Angeles', 'CA', 48),
-(29, 'Oliver', 'Garcia', 'New York City', 'NY', 50);
+(29, 'Oliver', 'Garcia', 'New York City', 'NY', 50),
+(30, 'Brian', 'Smith', 'Salt Lake City', 'Utah', 52);
 
 -- --------------------------------------------------------
 
@@ -153,8 +150,8 @@ INSERT INTO `member` (`member_id`, `first_name`, `last_name`, `city`, `state`, `
 --
 
 DROP TABLE IF EXISTS `restaurant`;
-CREATE TABLE IF NOT EXISTS `restaurant` (
-  `restaurant_id` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `restaurant` (
+  `restaurant_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `type` varchar(50) NOT NULL,
   `description` text,
@@ -163,17 +160,15 @@ CREATE TABLE IF NOT EXISTS `restaurant` (
   `website` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `photo` varchar(255) DEFAULT NULL,
-  `owner_user_id` int DEFAULT NULL,
-  `owner_name` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`restaurant_id`),
-  KEY `owner_user_id` (`owner_user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `user_id` int(11) DEFAULT NULL,
+  `owner_name` varchar(255) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `restaurant`
 --
 
-INSERT INTO `restaurant` (`restaurant_id`, `name`, `type`, `description`, `address`, `phone`, `website`, `email`, `photo`, `owner_user_id`, `owner_name`) VALUES
+INSERT INTO `restaurant` (`restaurant_id`, `name`, `type`, `description`, `address`, `phone`, `website`, `email`, `photo`, `user_id`, `owner_name`) VALUES
 (1, 'Tasty Delights', 'Italian', 'Authentic Italian cuisine with a modern twist', '123 Main St, Cityville', '(555) 123-1234', 'http://tastydelights.com', 'info@tastydelights.com', 'images/restaurant/tasty_delights.jpg', 2, 'Alice Johnson'),
 (2, 'Spice Palace', 'Indian', 'Serving flavorful Indian dishes for spice lovers', '456 Spice Lane, Spicetown', '(555) 567-5678', 'http://spicepalace.com', 'info@spicepalace.com', 'images/restaurant/spice_palace.jpg', 5, 'Charlie Brown'),
 (3, 'Epicurean Eats', 'International', 'A culinary journey around the world on your plate', '789 Global Blvd, Culinary City', '(555) 910-9101', 'http://epicureaneats.com', 'info@epicureaneats.com', 'images/restaurant/epicurean_eats.jpg', 8, 'Grace Wang'),
@@ -185,7 +180,8 @@ INSERT INTO `restaurant` (`restaurant_id`, `name`, `type`, `description`, `addre
 (9, 'Urban Bistro', 'Contemporary', 'Modern and innovative dishes in an urban setting', '606 Urban Avenue, Bistroville', '(555) 212-2122', 'http://urbanbistro.com', 'info@urbanbistro.com', 'images/restaurant/urban_bistro.jpg', 26, 'Ava Johnson'),
 (10, 'Green Garden Cafe', 'Vegetarian', 'Healthy and delicious vegetarian options in a green setting', '707 Garden Street, Green City', '(555) 232-2324', 'http://greengardencafe.com', 'info@greengardencafe.com', 'images/restaurant/green_garden_cafe.jpg', 29, 'William Taylor'),
 (11, 'Flavors of Asia', 'Asian Fusion', 'A fusion of flavors from various Asian cuisines', '808 Asia Lane, Flavor City', '(555) 252-2526', 'http://flavorsofasia.com', 'info@flavorsofasia.com', 'images/restaurant/flavors_of_asia.jpg', 32, 'Ethan Wilson'),
-(12, 'Sizzle Steakhouse', 'Steakhouse', 'Sizzling steaks cooked to perfection', '909 Sizzle Street, Steakville', '(555) 272-2728', 'http://sizzlesteakhouse.com', 'info@sizzlesteakhouse.com', 'images/restaurant/sizzle_steakhouse.jpg', 42, 'Lucas Brown');
+(12, 'Sizzle Steakhouse', 'Steakhouse', 'Sizzling steaks cooked to perfection', '909 Sizzle Street, Steakville', '(555) 272-2728', 'http://sizzlesteakhouse.com', 'info@sizzlesteakhouse.com', 'images/restaurant/sizzle_steakhouse.jpg', 42, 'Lucas Brown'),
+(13, 'Jones Place', 'American', 'Best American food you can find! All the burgers, fries, and milkshakes you could ask for.', '222 Mulberry Lane', '1235432222', 'http://jonesplace.com', 'jones.place@food.com', '', 53, 'Patrick Jones');
 
 -- --------------------------------------------------------
 
@@ -194,18 +190,15 @@ INSERT INTO `restaurant` (`restaurant_id`, `name`, `type`, `description`, `addre
 --
 
 DROP TABLE IF EXISTS `review`;
-CREATE TABLE IF NOT EXISTS `review` (
-  `review_id` int NOT NULL AUTO_INCREMENT,
-  `food_item_id` int NOT NULL,
-  `member_id` int NOT NULL,
+CREATE TABLE `review` (
+  `review_id` int(11) NOT NULL,
+  `food_item_id` int(11) NOT NULL,
+  `member_id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `description` text,
-  `rating` int NOT NULL,
-  `date` date NOT NULL,
-  PRIMARY KEY (`review_id`),
-  KEY `food_item_id` (`food_item_id`),
-  KEY `member_id` (`member_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=722 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `rating` int(11) NOT NULL,
+  `date` date NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `review`
@@ -350,69 +343,143 @@ INSERT INTO `review` (`review_id`, `food_item_id`, `member_id`, `title`, `descri
 --
 
 DROP TABLE IF EXISTS `user`;
-CREATE TABLE IF NOT EXISTS `user` (
-  `user_id` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `user` (
+  `user_id` int(11) NOT NULL,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `role` varchar(50) NOT NULL,
-  PRIMARY KEY (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `role` varchar(50) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`user_id`, `username`, `password`, `role`) VALUES
-(1, 'artisticEater', 'Picasso123', 'member'),
-(2, 'foodieExplorer', 'TasteBud456', 'restaurant'),
-(3, 'spicyEnthusiast', 'HeatSeeker789', 'admin'),
-(4, 'sugarRushDreamer', 'SweetTooth987', 'member'),
-(5, 'culinaryNomad', 'GlobeTrotter123', 'restaurant'),
-(6, 'flavorAlchemy', 'TasteWizard456', 'member'),
-(7, 'gourmetVoyager', 'EpicureanExplorer789', 'admin'),
-(8, 'savorSculptor', 'FlavorArtisan987', 'restaurant'),
-(9, 'gastronomicTrailblazer', 'CulinaryTrail123', 'member'),
-(10, 'palatePioneer', 'TasteAdventurer456', 'member'),
-(11, 'epicureanJourneyman', 'CulinaryDiscoverer789', 'restaurant'),
-(12, 'tasteMaestro', 'FlavorConductor987', 'member'),
-(13, 'umamiAlchemist', 'SavorSorcerer123', 'restaurant'),
-(14, 'savvyGastronome', 'FoodieCognoscente456', 'admin'),
-(15, 'flavorVirtuoso', 'GastronomyMaestro789', 'restaurant'),
-(16, 'culinaryExplorer', 'FoodDiscovery123', 'member'),
-(17, 'tasteHarmony', 'FlavorSymphony456', 'restaurant'),
-(18, 'artisanalPalate', 'EpicureanArtisan789', 'member'),
-(19, 'deliciousOdyssey', 'CulinaryJourneyman987', 'admin'),
-(20, 'gourmetGlobetrotter', 'FoodieJetsetter123', 'restaurant'),
-(21, 'tastyExplorer', 'FlavorAdventurer123', 'member'),
-(22, 'culinaryArtist', 'TasteCreator456', 'member'),
-(23, 'sensoryGastronome', 'FlavorEnthusiast789', 'admin'),
-(24, 'foodFusionist', 'TasteFusion123', 'member'),
-(25, 'deliciousJourneyman', 'CulinaryVoyager456', 'member'),
-(26, 'flavorCraftsman', 'TasteCraftsman123', 'restaurant'),
-(27, 'culinaryInnovator', 'FoodInnovator456', 'member'),
-(28, 'gourmetExplorer', 'EpicureanAdventurer789', 'member'),
-(29, 'savoryTrailblazer', 'FlavorTrailblazer123', 'restaurant'),
-(30, 'creativeCulinarist', 'TasteInnovator456', 'member'),
-(31, 'gastronomyEnigma', 'FlavorMystic789', 'admin'),
-(32, 'trendyFoodie', 'FoodieTrendsetter123', 'restaurant'),
-(33, 'culinaryVirtuoso', 'TasteVirtuoso456', 'member'),
-(34, 'gourmetArtisan', 'EpicureanCraftsman789', 'member'),
-(35, 'flavorfulExplorer', 'TasteAdventurer123', 'member'),
-(36, 'culinaryGuru', 'FoodGuru456', 'member'),
-(37, 'globalTasteExplorer', 'FlavorAdventurer789', 'admin'),
-(38, 'tasteVisionary', 'FoodVisionary123', 'member'),
-(39, 'savorSorcerer', 'FlavorMagician456', 'member'),
-(40, 'epicureanVoyager', 'CulinaryVoyager789', 'member'),
-(41, 'sensationalFoodie', 'TasteSensation123', 'member'),
-(42, 'flavorFusionist', 'CulinaryFusionist456', 'restaurant'),
-(43, 'creativeGastronaut', 'TasteGastronaut789', 'admin'),
-(44, 'culinaryTrailblazer', 'FoodieExplorer123', 'member'),
-(45, 'gourmetNomad', 'EpicureanNomad456', 'member'),
-(46, 'delightfulDiner', 'TasteDelighter789', 'member'),
-(47, 'culinaryConnoisseur', 'FoodConnoisseur123', 'member'),
-(48, 'savorySculptor', 'FlavorArtisan456', 'member'),
-(49, 'foodieMaestro', 'TasteMaestro789', 'admin'),
-(50, 'culinaryVirtuoso2', 'EpicureanVirtuoso123', 'member');
+(1, 'artisticEater', '$2y$10$RxaL2wTT1HNB7keFt0Q4ouvahoIlaeOGkhi0lfpgzXmV.eKS7CP0a', 'member'),
+(2, 'foodieExplorer', '$2y$10$DiIcazZ9uwnY0GFfTx0WLuo65iwS6wBTukHKl5cKzxG8SdJgPLa5K', 'restaurant'),
+(3, 'spicyEnthusiast', '$2y$10$RxaL2wTT1HNB7keFt0Q4ouvahoIlaeOGkhi0lfpgzXmV.eKS7CP0a', 'admin'),
+(4, 'sugarRushDreamer', '$2y$10$DiIcazZ9uwnY0GFfTx0WLuo65iwS6wBTukHKl5cKzxG8SdJgPLa5K', 'member'),
+(5, 'culinaryNomad', '$2y$10$RxaL2wTT1HNB7keFt0Q4ouvahoIlaeOGkhi0lfpgzXmV.eKS7CP0a', 'restaurant'),
+(6, 'flavorAlchemy', '$2y$10$DiIcazZ9uwnY0GFfTx0WLuo65iwS6wBTukHKl5cKzxG8SdJgPLa5K', 'member'),
+(7, 'gourmetVoyager', '$2y$10$RxaL2wTT1HNB7keFt0Q4ouvahoIlaeOGkhi0lfpgzXmV.eKS7CP0a', 'admin'),
+(8, 'savorSculptor', '$2y$10$DiIcazZ9uwnY0GFfTx0WLuo65iwS6wBTukHKl5cKzxG8SdJgPLa5K', 'restaurant'),
+(9, 'gastronomicTrailblazer', '$2y$10$RxaL2wTT1HNB7keFt0Q4ouvahoIlaeOGkhi0lfpgzXmV.eKS7CP0a', 'member'),
+(10, 'palatePioneer', '$2y$10$DiIcazZ9uwnY0GFfTx0WLuo65iwS6wBTukHKl5cKzxG8SdJgPLa5K', 'member'),
+(11, 'epicureanJourneyman', '$2y$10$RxaL2wTT1HNB7keFt0Q4ouvahoIlaeOGkhi0lfpgzXmV.eKS7CP0a', 'restaurant'),
+(12, 'tasteMaestro', '$2y$10$DiIcazZ9uwnY0GFfTx0WLuo65iwS6wBTukHKl5cKzxG8SdJgPLa5K', 'member'),
+(13, 'umamiAlchemist', '$2y$10$RxaL2wTT1HNB7keFt0Q4ouvahoIlaeOGkhi0lfpgzXmV.eKS7CP0a', 'restaurant'),
+(14, 'savvyGastronome', '$2y$10$DiIcazZ9uwnY0GFfTx0WLuo65iwS6wBTukHKl5cKzxG8SdJgPLa5K', 'admin'),
+(15, 'flavorVirtuoso', '$2y$10$RxaL2wTT1HNB7keFt0Q4ouvahoIlaeOGkhi0lfpgzXmV.eKS7CP0a', 'restaurant'),
+(16, 'culinaryExplorer', '$2y$10$DiIcazZ9uwnY0GFfTx0WLuo65iwS6wBTukHKl5cKzxG8SdJgPLa5K', 'member'),
+(17, 'tasteHarmony', '$2y$10$RxaL2wTT1HNB7keFt0Q4ouvahoIlaeOGkhi0lfpgzXmV.eKS7CP0a', 'restaurant'),
+(18, 'artisanalPalate', '$2y$10$DiIcazZ9uwnY0GFfTx0WLuo65iwS6wBTukHKl5cKzxG8SdJgPLa5K', 'member'),
+(19, 'deliciousOdyssey', '$2y$10$RxaL2wTT1HNB7keFt0Q4ouvahoIlaeOGkhi0lfpgzXmV.eKS7CP0a', 'admin'),
+(20, 'gourmetGlobetrotter', '$2y$10$DiIcazZ9uwnY0GFfTx0WLuo65iwS6wBTukHKl5cKzxG8SdJgPLa5K', 'restaurant'),
+(21, 'tastyExplorer', '$2y$10$RxaL2wTT1HNB7keFt0Q4ouvahoIlaeOGkhi0lfpgzXmV.eKS7CP0a', 'member'),
+(22, 'culinaryArtist', '$2y$10$DiIcazZ9uwnY0GFfTx0WLuo65iwS6wBTukHKl5cKzxG8SdJgPLa5K', 'member'),
+(23, 'sensoryGastronome', '$2y$10$RxaL2wTT1HNB7keFt0Q4ouvahoIlaeOGkhi0lfpgzXmV.eKS7CP0a', 'admin'),
+(24, 'foodFusionist', '$2y$10$DiIcazZ9uwnY0GFfTx0WLuo65iwS6wBTukHKl5cKzxG8SdJgPLa5K', 'member'),
+(25, 'deliciousJourneyman', '$2y$10$RxaL2wTT1HNB7keFt0Q4ouvahoIlaeOGkhi0lfpgzXmV.eKS7CP0a', 'member'),
+(26, 'flavorCraftsman', '$2y$10$RxaL2wTT1HNB7keFt0Q4ouvahoIlaeOGkhi0lfpgzXmV.eKS7CP0a', 'restaurant'),
+(27, 'culinaryInnovator', '$2y$10$DiIcazZ9uwnY0GFfTx0WLuo65iwS6wBTukHKl5cKzxG8SdJgPLa5K', 'member'),
+(28, 'gourmetExplorer', '$2y$10$RxaL2wTT1HNB7keFt0Q4ouvahoIlaeOGkhi0lfpgzXmV.eKS7CP0a', 'member'),
+(29, 'savoryTrailblazer', '$2y$10$DiIcazZ9uwnY0GFfTx0WLuo65iwS6wBTukHKl5cKzxG8SdJgPLa5K', 'restaurant'),
+(30, 'creativeCulinarist', '$2y$10$RxaL2wTT1HNB7keFt0Q4ouvahoIlaeOGkhi0lfpgzXmV.eKS7CP0a', 'member'),
+(31, 'gastronomyEnigma', '$2y$10$DiIcazZ9uwnY0GFfTx0WLuo65iwS6wBTukHKl5cKzxG8SdJgPLa5K', 'admin'),
+(32, 'trendyFoodie', '$2y$10$RxaL2wTT1HNB7keFt0Q4ouvahoIlaeOGkhi0lfpgzXmV.eKS7CP0a', 'restaurant'),
+(33, 'culinaryVirtuoso', '$2y$10$DiIcazZ9uwnY0GFfTx0WLuo65iwS6wBTukHKl5cKzxG8SdJgPLa5K', 'member'),
+(34, 'gourmetArtisan', '$2y$10$RxaL2wTT1HNB7keFt0Q4ouvahoIlaeOGkhi0lfpgzXmV.eKS7CP0a', 'member'),
+(35, 'flavorfulExplorer', '$2y$10$DiIcazZ9uwnY0GFfTx0WLuo65iwS6wBTukHKl5cKzxG8SdJgPLa5K', 'member'),
+(36, 'culinaryGuru', '$2y$10$RxaL2wTT1HNB7keFt0Q4ouvahoIlaeOGkhi0lfpgzXmV.eKS7CP0a', 'member'),
+(37, 'globalTasteExplorer', '$2y$10$DiIcazZ9uwnY0GFfTx0WLuo65iwS6wBTukHKl5cKzxG8SdJgPLa5K', 'admin'),
+(38, 'tasteVisionary', '$2y$10$RxaL2wTT1HNB7keFt0Q4ouvahoIlaeOGkhi0lfpgzXmV.eKS7CP0a', 'member'),
+(39, 'savorSorcerer', '$2y$10$DiIcazZ9uwnY0GFfTx0WLuo65iwS6wBTukHKl5cKzxG8SdJgPLa5K', 'member'),
+(40, 'epicureanVoyager', '$2y$10$RxaL2wTT1HNB7keFt0Q4ouvahoIlaeOGkhi0lfpgzXmV.eKS7CP0a', 'member'),
+(41, 'sensationalFoodie', '$2y$10$DiIcazZ9uwnY0GFfTx0WLuo65iwS6wBTukHKl5cKzxG8SdJgPLa5K', 'member'),
+(42, 'flavorFusionist', '$2y$10$RxaL2wTT1HNB7keFt0Q4ouvahoIlaeOGkhi0lfpgzXmV.eKS7CP0a', 'restaurant'),
+(43, 'creativeGastronaut', '$2y$10$DiIcazZ9uwnY0GFfTx0WLuo65iwS6wBTukHKl5cKzxG8SdJgPLa5K', 'admin'),
+(44, 'culinaryTrailblazer', '$2y$10$RxaL2wTT1HNB7keFt0Q4ouvahoIlaeOGkhi0lfpgzXmV.eKS7CP0a', 'member'),
+(45, 'gourmetNomad', '$2y$10$DiIcazZ9uwnY0GFfTx0WLuo65iwS6wBTukHKl5cKzxG8SdJgPLa5K', 'member'),
+(46, 'delightfulDiner', '$2y$10$RxaL2wTT1HNB7keFt0Q4ouvahoIlaeOGkhi0lfpgzXmV.eKS7CP0a', 'member'),
+(47, 'culinaryConnoisseur', '$2y$10$DiIcazZ9uwnY0GFfTx0WLuo65iwS6wBTukHKl5cKzxG8SdJgPLa5K', 'member'),
+(48, 'savorySculptor', '$2y$10$RxaL2wTT1HNB7keFt0Q4ouvahoIlaeOGkhi0lfpgzXmV.eKS7CP0a', 'member'),
+(49, 'foodieMaestro', '$2y$10$DiIcazZ9uwnY0GFfTx0WLuo65iwS6wBTukHKl5cKzxG8SdJgPLa5K', 'admin'),
+(50, 'culinaryVirtuoso2', '$2y$10$RxaL2wTT1HNB7keFt0Q4ouvahoIlaeOGkhi0lfpgzXmV.eKS7CP0a', 'member'),
+(53, 'pjones', '$2y$10$DiIcazZ9uwnY0GFfTx0WLuo65iwS6wBTukHKl5cKzxG8SdJgPLa5K', 'restaurant'),
+(52, 'bsmith', '$2y$10$RxaL2wTT1HNB7keFt0Q4ouvahoIlaeOGkhi0lfpgzXmV.eKS7CP0a', 'member');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `food_item`
+--
+ALTER TABLE `food_item`
+  ADD PRIMARY KEY (`food_item_id`),
+  ADD KEY `restaurant_id` (`restaurant_id`);
+
+--
+-- Indexes for table `member`
+--
+ALTER TABLE `member`
+  ADD PRIMARY KEY (`member_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `restaurant`
+--
+ALTER TABLE `restaurant`
+  ADD PRIMARY KEY (`restaurant_id`),
+  ADD KEY `owner_user_id` (`user_id`);
+
+--
+-- Indexes for table `review`
+--
+ALTER TABLE `review`
+  ADD PRIMARY KEY (`review_id`),
+  ADD KEY `food_item_id` (`food_item_id`),
+  ADD KEY `member_id` (`member_id`);
+
+--
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`user_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `food_item`
+--
+ALTER TABLE `food_item`
+  MODIFY `food_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
+
+--
+-- AUTO_INCREMENT for table `member`
+--
+ALTER TABLE `member`
+  MODIFY `member_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+
+--
+-- AUTO_INCREMENT for table `restaurant`
+--
+ALTER TABLE `restaurant`
+  MODIFY `restaurant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `review`
+--
+ALTER TABLE `review`
+  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=722;
+
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
