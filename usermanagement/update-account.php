@@ -74,14 +74,12 @@ if ($member_result->num_rows > 0 && $user_result->num_rows > 0) {
 		<input type='hidden' name='user_id' value='$user_row[user_id]'>
 		<input type='submit' value='UPDATE ACCOUNT'>	
 	</form>
-	<form action="delete-account.php" method="post">
-	<input type="hidden" name="delete" value="yes">
+	<form action='delete-account.php' method='post'>
+	<input type='hidden' name='delete' value='yes'>
 	<input type='hidden' name='user_id' value='$user_row[user_id]'>
-	<input type="submit" value="DELETE ACCOUNT">
+	<input type='submit' value='DELETE ACCOUNT'>
 	</form>
 	
-	<a href="logout.php">Logout</a>
-    <a href="../home/home-page.php">Back to Home Page</a>
 _END;
 } else if ($restaurant_result->num_rows > 0 && $user_result->num_rows > 0) {
         $restaurant_row = $restaurant_result->fetch_assoc();
@@ -113,13 +111,13 @@ _END;
 		<input type='hidden' name='user_id' value='$user_row[user_id]'>
 		<input type='submit' value='UPDATE ACCOUNT'>	
 	</form>
-	<form action="delete-account.php" method="post">
-	<input type="hidden" name="delete" value="yes">
+	<form action='delete-account.php' method='post'>
+	<input type='hidden' name='delete' value='yes'>
 	<input type='hidden' name='user_id' value='$user_row[user_id]'>
-	<input type="submit" value="DELETE ACCOUNT">
+	<input type='submit' value='DELETE ACCOUNT'>
 	</form>
 	
-	<a href="../usermanagement/account-login.php">Logout</a><br>
+
 
 _END;
 }

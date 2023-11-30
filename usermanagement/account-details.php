@@ -75,8 +75,14 @@ $conn->close();
 
 		<form action='update-account.php' method='post'>
 		<input type='hidden' name='update' value='yes'>
-		<input type='hidden' name='user_id' value='$row[user_id]'>
+		<input type='hidden' name='user_id' value='$user_row[user_id]'>
 		<input type='submit' value='UPDATE CARD'>	
+	    </form>	
+		
+		<form action='delete-account.php' method='post'>
+		<input type='hidden' name='delete' value='yes'>
+		<input type='hidden' name='user_id' value='$user_row[user_id]'>
+		<input type='submit' value='DELETE CARD'>	
 	    </form>	
 	
 _END;
