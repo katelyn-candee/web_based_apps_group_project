@@ -1,6 +1,6 @@
 
 body {
-  font-family: Times New Roman, sans-serif;
+  font-family: Helvetica;
   background-color: #EBEDD3;
 }
 
@@ -56,8 +56,6 @@ form {
   text-transform: uppercase;
   color: #2F363E;
 }
-
-
 
 /* carousel */
 .carousel {

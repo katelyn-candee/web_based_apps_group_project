@@ -1,21 +1,9 @@
 <html>
 	<head>
-		<title>Reviews</title>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-		<link rel="stylesheet" href="food-style.css"> 
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
-	</head>
-	</body>
-		<div class='container-fluid' >
-			<div class='row'>
-				<div class='col-sm-12'>
-					<h1>Food Review App</h1>
-				</div>	
-			</div>
-		</div>
+		<title>Restaurant Details</title>
 
 <?php
+require_once "../style/header.php";
 
 //check if restaurant id was passed
 if(isset($_GET['restaurant']))	{
@@ -43,11 +31,11 @@ if(isset($_GET['restaurant']))	{
 	";
 	
 	//display query results
-	displayRestaurantResults($query);
+	displayRestaurantResults($query, $hn, $un, $pw, $db);
 	
 }
 
-function displayRestaurantResults($query)	{
+function displayRestaurantResults($query, $hn, $un, $pw, $db)	{
 	//import functions
 	require_once "../db/login.php";
 	require_once "../functions/star_rating.php";
@@ -68,7 +56,7 @@ function displayRestaurantResults($query)	{
 			$restaurant = $result->fetch_array(MYSQLI_ASSOC);
 
 			echo <<<_END
-				<div class='container-fluid'>
+				<div class='container-fluid card' style='text-align:left'>
 					<div class='row'>
 						<div class='col-sm-12'>
 							<h3>$restaurant[name]</h3></a>

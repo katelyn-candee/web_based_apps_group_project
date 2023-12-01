@@ -1,27 +1,13 @@
 <html>
 	<head>
 		<title>Reviews</title>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-		<link rel="stylesheet" href="food-style.css"> 
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
-	</head>
-	</body>
-		<div class='container-fluid' >
-			<div class='row'>
-				<div class='col-sm-12'>
-					<h1>Food Review App</h1>
-				</div>	
-			</div>
-		</div>
 
 <?php
 //import functions
+require_once "../style/header.php";
 require_once "../db/login.php";
 require_once "../functions/star_rating.php";
 require_once "../usermanagement/User.php";
-
-session_start();
 
 //check if food item id was passed
 if(isset($_GET['food_item']))	{
@@ -54,13 +40,14 @@ if(isset($_GET['food_item']))	{
 		<div class='container-fluid'>
 			<div class='row'>
 				<div class="col-sm-12">
-					<h2>Reviews for the $food_item[food_item_name] at $food_item[restaurant_name]</h2>
-				</div>	
+					<h2 style='text-align:left'>Reviews for the $food_item[food_item_name] at $food_item[restaurant_name]</h2><br>
+				</div>
 			</div>
 			<div class='row'>
 				<div class='col-sm-12'>
 					<a href='review-add.php?food_item=$food_item_id'><button>Add a review</button></a>
 				</div>
+				<br><br>
 			</div>
 		</div>
 	_END;
@@ -77,7 +64,8 @@ if(isset($_GET['food_item']))	{
 		from review as r
 		left join member as m
 			on r.member_id = m.member_id
-		where food_item_id='$food_item_id';
+		where food_item_id='$food_item_id'
+		order by date desc;
 	";
 	
 	$result = $conn->query($query); 
@@ -95,13 +83,13 @@ if(isset($_GET['food_item']))	{
 			$review_date = $review_date->format("M j, Y");
 
 			echo <<<_END
-				<div class='container-fluid'>
+				<div class='container-fluid review-card'>
 					<div class='row'>
 						<div class='col-sm-12'>
 						
 			_END;
 			
-			echo '<h2>'.displayStarRating($review['rating']).'</h2>';
+			echo '<h2 style="text-align:left">'.displayStarRating($review['rating']).'</h2>';
 						
 			if(isset($_SESSION['user'])){
 				

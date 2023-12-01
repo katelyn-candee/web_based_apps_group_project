@@ -1,30 +1,9 @@
 <html>
 	<head>
 		<title>Restaurants</title>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-		<link rel="stylesheet" href="food-style.css"> 
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
-	</head>
-	</body>
-		<div class='container-fluid' >
-			<div class='row'>
-				<div class='col-sm-12'>
-					<h1>Food Review App</h1>
-				</div>	
-			</div>
-		</div>
-		<div class='container-fluid'>
-			<div class='row'>
-				<div class="col-sm-12">
-					<h2>Results</h2>
-				</div>	
-			</div>
-		</div>
 
-<?php
-
-
+<?php 
+require_once "../style/header.php";
 //check if restaurant category was passed
 if(isset($_GET['category']))	{
 
@@ -50,8 +29,18 @@ if(isset($_GET['category']))	{
 		where lower(r.type) like '%$category%';
 	";
 	
+	echo <<<_END
+		<div class='container-fluid'>
+			<div class='row'>
+				<div class="col-sm-12">
+					<h2 style='text-align:left'>Results for "$category"</h2>
+				</div>	
+			</div>
+		</div>
+	_END;
+	
 	//display query results
-	displayRestaurantResults($query);
+	displayRestaurantResults($query, $hn, $un, $pw, $db);
 	
 } else if(isset($_POST['search']))	{
 	
@@ -80,8 +69,18 @@ if(isset($_GET['category']))	{
 			or lower(r.address) like lower('%$search%');
 	";
 	
+	echo <<<_END
+		<div class='container-fluid'>
+			<div class='row'>
+				<div class="col-sm-12">
+					<h2 style='text-align:left'>Results for "$search"</h2>
+				</div>	
+			</div>
+		</div>
+	_END;
+	
 	//display query results
-	displayRestaurantResults($query);
+	displayRestaurantResults($query, $hn, $un, $pw, $db);
 	
 } else	{
 	
@@ -103,12 +102,21 @@ if(isset($_GET['category']))	{
 			on r.restaurant_id = rr.restaurant_id
 	";
 	
+	echo <<<_END
+		<div class='container-fluid'>
+			<div class='row'>
+				<div class="col-sm-12">
+					<h2 style='text-align:left'>Results</h2>
+				</div>	
+			</div>
+		</div>
+	_END;
+	
 	//display query results
-	displayRestaurantResults($query);
+	displayRestaurantResults($query, $hn, $un, $pw, $db);
 }
 
-function displayRestaurantResults($query)	{
-	//import functions
+function displayRestaurantResults($query, $hn, $un, $pw, $db)	{
 	require_once "../db/login.php";
 	require_once "../functions/star_rating.php";
 	
@@ -128,7 +136,7 @@ function displayRestaurantResults($query)	{
 			$restaurant = $result->fetch_array(MYSQLI_ASSOC);
 
 			echo <<<_END
-				<div class='container-fluid'>
+				<div class='container-fluid card' style='text-align:left'>
 					<div class='row'>
 						<div class='col-sm-8'>
 							<a href='restaurant-details.php?restaurant=$restaurant[restaurant_id]'><h3>$restaurant[name]</h3></a>
@@ -145,7 +153,7 @@ function displayRestaurantResults($query)	{
 							$restaurant[website]</p>
 						</div>
 						<div class='col-sm-4'>
-							<p><br><a href='restaurant-details.php?restaurant=$restaurant[restaurant_id]'><img src='../$restaurant[photo]' style='height:240px'></img></a></p>
+							<p><br><a href='restaurant-details.php?restaurant=$restaurant[restaurant_id]'><img src='../$restaurant[photo]' style='height:210px'></img></a></p>
 							
 						</div>
 					</div> 
@@ -171,6 +179,7 @@ function displayRestaurantResults($query)	{
 }
 
 ?>
+
 
 	</body>
 </html>
