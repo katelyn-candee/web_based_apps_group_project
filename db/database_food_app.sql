@@ -2,10 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:8889
--- Generation Time: Nov 30, 2023 at 10:14 PM
--- Server version: 5.7.39
--- PHP Version: 7.4.33
+-- Host: 127.0.0.1:3306
+-- Generation Time: Dec 02, 2023 at 06:40 PM
+-- Server version: 8.0.31
+-- PHP Version: 8.0.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,7 +20,7 @@ SET time_zone = "+00:00";
 --
 -- Database: `food_app`
 --
-CREATE DATABASE IF NOT EXISTS `food_app` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+CREATE DATABASE IF NOT EXISTS `food_app` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 USE `food_app`;
 
 -- --------------------------------------------------------
@@ -30,15 +30,17 @@ USE `food_app`;
 --
 
 DROP TABLE IF EXISTS `food_item`;
-CREATE TABLE `food_item` (
-  `food_item_id` int(11) NOT NULL,
-  `restaurant_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `food_item` (
+  `food_item_id` int NOT NULL AUTO_INCREMENT,
+  `restaurant_id` int NOT NULL,
   `name` varchar(255) NOT NULL,
   `description` text,
   `type` varchar(50) NOT NULL,
   `price` decimal(8,2) NOT NULL,
-  `photo` varchar(255) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+  `photo` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`food_item_id`),
+  KEY `restaurant_id` (`restaurant_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=96 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `food_item`
@@ -98,14 +100,16 @@ INSERT INTO `food_item` (`food_item_id`, `restaurant_id`, `name`, `description`,
 --
 
 DROP TABLE IF EXISTS `member`;
-CREATE TABLE `member` (
-  `member_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `member` (
+  `member_id` int NOT NULL AUTO_INCREMENT,
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
   `city` varchar(255) NOT NULL,
   `state` varchar(255) NOT NULL,
-  `user_id` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+  `user_id` int NOT NULL,
+  PRIMARY KEY (`member_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `member`
@@ -150,8 +154,8 @@ INSERT INTO `member` (`member_id`, `first_name`, `last_name`, `city`, `state`, `
 --
 
 DROP TABLE IF EXISTS `restaurant`;
-CREATE TABLE `restaurant` (
-  `restaurant_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `restaurant` (
+  `restaurant_id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `type` varchar(50) NOT NULL,
   `description` text,
@@ -160,28 +164,30 @@ CREATE TABLE `restaurant` (
   `website` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `photo` varchar(255) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `owner_name` varchar(255) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+  `user_id` int DEFAULT NULL,
+  `owner_name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`restaurant_id`),
+  KEY `owner_user_id` (`user_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `restaurant`
 --
 
 INSERT INTO `restaurant` (`restaurant_id`, `name`, `type`, `description`, `address`, `phone`, `website`, `email`, `photo`, `user_id`, `owner_name`) VALUES
-(1, 'Tasty Delights', 'Italian', 'Authentic Italian cuisine with a modern twist', '123 Main St, Cityville', '(555) 123-1234', 'http://tastydelights.com', 'info@tastydelights.com', 'images/restaurant/tasty_delights.jpg', 2, 'Alice Johnson'),
-(2, 'Spice Palace', 'Indian', 'Serving flavorful Indian dishes for spice lovers', '456 Spice Lane, Spicetown', '(555) 567-5678', 'http://spicepalace.com', 'info@spicepalace.com', 'images/restaurant/spice_palace.jpg', 5, 'Charlie Brown'),
-(3, 'Epicurean Eats', 'International', 'A culinary journey around the world on your plate', '789 Global Blvd, Culinary City', '(555) 910-9101', 'http://epicureaneats.com', 'info@epicureaneats.com', 'images/restaurant/epicurean_eats.jpg', 8, 'Grace Wang'),
-(4, 'Southern Comfort Kitchen', 'Southern', 'Comforting southern dishes in a cozy atmosphere', '101 Southern Street, Comfortville', '(555) 111-1112', 'http://southerncomfortkitchen.com', 'info@southerncomfortkitchen.com', 'images/restaurant/southern_comfort_kitchen.jpg', 11, 'Daniel Miller'),
-(5, 'Ocean Breeze Seafood', 'Seafood', 'Fresh seafood dishes with a view of the ocean', '202 Ocean View, Seafood Bay', '(555) 131-1314', 'http://oceanbreezeseafood.com', 'info@oceanbreezeseafood.com', 'images/restaurant/ocean_breeze_seafood.jpg', 13, 'Sophia Lee'),
-(6, 'Sunset Grill', 'American', 'Classic American favorites with a view of the sunset', '303 Sunset Avenue, Grill City', '(555) 151-1516', 'http://sunsetgrill.com', 'info@sunsetgrill.com', 'images/restaurant/sunset_grill.jpg', 15, 'Olivia Jones'),
-(7, 'Zen Sushi Bar', 'Japanese', 'Serving fresh and delicious sushi in a zen atmosphere', '404 Zen Street, Sushi Town', '(555) 171-1718', 'http://zensushibar.com', 'info@zensushibar.com', 'images/restaurant/zen_sushi_bar.jpg', 17, 'Liam Wilson'),
-(8, 'Mediterranean Delights', 'Mediterranean', 'Experience the flavors of the Mediterranean', '505 Olive Lane, Mediterra City', '(555) 192-1920', 'http://mediterraneandelights.com', 'info@mediterraneandelights.com', 'images/restaurant/mediterranean_delights.jpg', 20, 'Ella Anderson'),
-(9, 'Urban Bistro', 'Contemporary', 'Modern and innovative dishes in an urban setting', '606 Urban Avenue, Bistroville', '(555) 212-2122', 'http://urbanbistro.com', 'info@urbanbistro.com', 'images/restaurant/urban_bistro.jpg', 26, 'Ava Johnson'),
-(10, 'Green Garden Cafe', 'Vegetarian', 'Healthy and delicious vegetarian options in a green setting', '707 Garden Street, Green City', '(555) 232-2324', 'http://greengardencafe.com', 'info@greengardencafe.com', 'images/restaurant/green_garden_cafe.jpg', 29, 'William Taylor'),
-(11, 'Flavors of Asia', 'Asian Fusion', 'A fusion of flavors from various Asian cuisines', '808 Asia Lane, Flavor City', '(555) 252-2526', 'http://flavorsofasia.com', 'info@flavorsofasia.com', 'images/restaurant/flavors_of_asia.jpg', 32, 'Ethan Wilson'),
-(12, 'Sizzle Steakhouse', 'Steakhouse', 'Sizzling steaks cooked to perfection', '909 Sizzle Street, Steakville', '(555) 272-2728', 'http://sizzlesteakhouse.com', 'info@sizzlesteakhouse.com', 'images/restaurant/sizzle_steakhouse.jpg', 42, 'Lucas Brown'),
-(13, 'Jones Place', 'American', 'Best American food you can find! All the burgers, fries, and milkshakes you could ask for.', '222 Mulberry Lane', '1235432222', 'http://jonesplace.com', 'jones.place@food.com', '', 53, 'Patrick Jones');
+(1, 'Tasty Delights', 'Italian', 'Authentic Italian cuisine with a modern twist', '123 Main St, Cityville', '(555) 123-1234', 'http://tastydelights.com', 'info@tastydelights.com', 'images/restaurant/default.jpg', 2, 'Alice Johnson'),
+(2, 'Spice Palace', 'Indian', 'Serving flavorful Indian dishes for spice lovers', '456 Spice Lane, Spicetown', '(555) 567-5678', 'http://spicepalace.com', 'info@spicepalace.com', 'images/restaurant/default.jpg', 5, 'Charlie Brown'),
+(3, 'Epicurean Eats', 'International', 'A culinary journey around the world on your plate', '789 Global Blvd, Culinary City', '(555) 910-9101', 'http://epicureaneats.com', 'info@epicureaneats.com', 'images/restaurant/default.jpg', 8, 'Grace Wang'),
+(4, 'Southern Comfort Kitchen', 'Southern', 'Comforting southern dishes in a cozy atmosphere', '101 Southern Street, Comfortville', '(555) 111-1112', 'http://southerncomfortkitchen.com', 'info@southerncomfortkitchen.com', 'images/restaurant/default.jpg', 11, 'Daniel Miller'),
+(5, 'Ocean Breeze Seafood', 'Seafood', 'Fresh seafood dishes with a view of the ocean', '202 Ocean View, Seafood Bay', '(555) 131-1314', 'http://oceanbreezeseafood.com', 'info@oceanbreezeseafood.com', 'images/restaurant/default.jpg', 13, 'Sophia Lee'),
+(6, 'Sunset Grill', 'American', 'Classic American favorites with a view of the sunset', '303 Sunset Avenue, Grill City', '(555) 151-1516', 'http://sunsetgrill.com', 'info@sunsetgrill.com', 'images/restaurant/default.jpg', 15, 'Olivia Jones'),
+(7, 'Zen Sushi Bar', 'Japanese', 'Serving fresh and delicious sushi in a zen atmosphere', '404 Zen Street, Sushi Town', '(555) 171-1718', 'http://zensushibar.com', 'info@zensushibar.com', 'images/restaurant/default.jpg', 17, 'Liam Wilson'),
+(8, 'Mediterranean Delights', 'Mediterranean', 'Experience the flavors of the Mediterranean', '505 Olive Lane, Mediterra City', '(555) 192-1920', 'http://mediterraneandelights.com', 'info@mediterraneandelights.com', 'images/restaurant/default.jpg', 20, 'Ella Anderson'),
+(9, 'Urban Bistro', 'Contemporary', 'Modern and innovative dishes in an urban setting', '606 Urban Avenue, Bistroville', '(555) 212-2122', 'http://urbanbistro.com', 'info@urbanbistro.com', 'images/restaurant/default.jpg', 26, 'Ava Johnson'),
+(10, 'Green Garden Cafe', 'Vegetarian', 'Healthy and delicious vegetarian options in a green setting', '707 Garden Street, Green City', '(555) 232-2324', 'http://greengardencafe.com', 'info@greengardencafe.com', 'images/restaurant/default.jpg', 29, 'William Taylor'),
+(11, 'Flavors of Asia', 'Asian Fusion', 'A fusion of flavors from various Asian cuisines', '808 Asia Lane, Flavor City', '(555) 252-2526', 'http://flavorsofasia.com', 'info@flavorsofasia.com', 'images/restaurant/default.jpg', 32, 'Ethan Wilson'),
+(12, 'Sizzle Steakhouse', 'Steakhouse', 'Sizzling steaks cooked to perfection', '909 Sizzle Street, Steakville', '(555) 272-2728', 'http://sizzlesteakhouse.com', 'info@sizzlesteakhouse.com', 'images/restaurant/default.jpg', 42, 'Lucas Brown'),
+(13, 'Jones Place', 'American', 'Best American food you can find! All the burgers, fries, and milkshakes you could ask for.', '222 Mulberry Lane', '1235432222', 'http://jonesplace.com', 'jones.place@food.com', 'images/restaurant/default.jpg', 53, 'Patrick Jones');
 
 -- --------------------------------------------------------
 
@@ -190,15 +196,18 @@ INSERT INTO `restaurant` (`restaurant_id`, `name`, `type`, `description`, `addre
 --
 
 DROP TABLE IF EXISTS `review`;
-CREATE TABLE `review` (
-  `review_id` int(11) NOT NULL,
-  `food_item_id` int(11) NOT NULL,
-  `member_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `review` (
+  `review_id` int NOT NULL AUTO_INCREMENT,
+  `food_item_id` int NOT NULL,
+  `member_id` int NOT NULL,
   `title` varchar(255) NOT NULL,
   `description` text,
-  `rating` int(11) NOT NULL,
-  `date` date NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+  `rating` int NOT NULL,
+  `date` date NOT NULL,
+  PRIMARY KEY (`review_id`),
+  KEY `food_item_id` (`food_item_id`),
+  KEY `member_id` (`member_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=725 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `review`
@@ -334,7 +343,9 @@ INSERT INTO `review` (`review_id`, `food_item_id`, `member_id`, `title`, `descri
 (708, 84, 9, 'Gastronomic Delight', 'A gastronomic delight! The flavors of this dish were exquisite, and I enjoyed every bite.', 5, '2023-11-12'),
 (709, 84, 13, 'Flavor Explosion', 'The flavor explosion in this dish was incredible. It\'s a must-try for any food enthusiast!', 4, '2023-11-13'),
 (714, 14, 12, 'Gastronomic Delight', 'A gastronomic delight! The flavors of this dish were exquisite, and I enjoyed every bite.', 5, '2023-11-12'),
-(715, 14, 1, 'Flavor Explosion', 'The flavor explosion in this dish was incredible. It\'s a must-try for any food enthusiast!', 4, '2023-11-13');
+(715, 14, 1, 'Flavor Explosion', 'The flavor explosion in this dish was incredible. It\'s a must-try for any food enthusiast!', 4, '2023-11-13'),
+(722, 1, 1, 'Not my cup of tea...', 'I won\'t order it again', 1, '2023-12-02'),
+(724, 11, 1, 'Absolutely loved it!', 'I am coming back for this dish every week!', 5, '2023-12-02');
 
 -- --------------------------------------------------------
 
@@ -343,12 +354,13 @@ INSERT INTO `review` (`review_id`, `food_item_id`, `member_id`, `title`, `descri
 --
 
 DROP TABLE IF EXISTS `user`;
-CREATE TABLE `user` (
-  `user_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `user` (
+  `user_id` int NOT NULL AUTO_INCREMENT,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `role` varchar(50) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+  `role` varchar(50) NOT NULL,
+  PRIMARY KEY (`user_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `user`
@@ -407,79 +419,6 @@ INSERT INTO `user` (`user_id`, `username`, `password`, `role`) VALUES
 (50, 'culinaryVirtuoso2', '$2y$10$RxaL2wTT1HNB7keFt0Q4ouvahoIlaeOGkhi0lfpgzXmV.eKS7CP0a', 'member'),
 (53, 'pjones', '$2y$10$DiIcazZ9uwnY0GFfTx0WLuo65iwS6wBTukHKl5cKzxG8SdJgPLa5K', 'restaurant'),
 (52, 'bsmith', '$2y$10$RxaL2wTT1HNB7keFt0Q4ouvahoIlaeOGkhi0lfpgzXmV.eKS7CP0a', 'member');
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `food_item`
---
-ALTER TABLE `food_item`
-  ADD PRIMARY KEY (`food_item_id`),
-  ADD KEY `restaurant_id` (`restaurant_id`);
-
---
--- Indexes for table `member`
---
-ALTER TABLE `member`
-  ADD PRIMARY KEY (`member_id`),
-  ADD KEY `user_id` (`user_id`);
-
---
--- Indexes for table `restaurant`
---
-ALTER TABLE `restaurant`
-  ADD PRIMARY KEY (`restaurant_id`),
-  ADD KEY `owner_user_id` (`user_id`);
-
---
--- Indexes for table `review`
---
-ALTER TABLE `review`
-  ADD PRIMARY KEY (`review_id`),
-  ADD KEY `food_item_id` (`food_item_id`),
-  ADD KEY `member_id` (`member_id`);
-
---
--- Indexes for table `user`
---
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`user_id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `food_item`
---
-ALTER TABLE `food_item`
-  MODIFY `food_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
-
---
--- AUTO_INCREMENT for table `member`
---
-ALTER TABLE `member`
-  MODIFY `member_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
-
---
--- AUTO_INCREMENT for table `restaurant`
---
-ALTER TABLE `restaurant`
-  MODIFY `restaurant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
-
---
--- AUTO_INCREMENT for table `review`
---
-ALTER TABLE `review`
-  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=722;
-
---
--- AUTO_INCREMENT for table `user`
---
-ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
