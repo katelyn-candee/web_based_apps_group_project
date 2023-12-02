@@ -18,7 +18,13 @@ if(isset($_POST['delete']))
 {
 	$food_item_id = $_POST['food_item_id'];
 
-	$query = "DELETE FROM food_item WHERE food_item_id='$food_item_id' ";
+	$query = "DELETE FROM food_item WHERE food_item_id='$food_item_id'";
+	
+	//Run the query
+	$result = $conn->query($query); 
+	if(!$result) die($conn->error);
+	
+	$query = "DELETE FROM review WHERE food_item_id='$food_item_id'";
 	
 	//Run the query
 	$result = $conn->query($query); 
