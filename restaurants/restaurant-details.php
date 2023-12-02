@@ -59,26 +59,32 @@ function displayRestaurantResults($query, $hn, $un, $pw, $db)	{
 				<div class='container-fluid card' style='text-align:left'>
 					<div class='row'>
 						<div class='col-sm-12'>
-							<h3>$restaurant[name]</h3></a>
+							<h2 style='text-align:left'>$restaurant[name]</h2></a>
 							<h4>$restaurant[type]</h4>
-							<p><br><a href='restaurant-details.php?restaurant=$restaurant[restaurant_id]'><img src='../$restaurant[photo]' style='height:300px'></img></a></p>
+					<div class='row'>
+						<div class='col-sm-6'>
+							<p><a href='restaurant-details.php?restaurant=$restaurant[restaurant_id]'><img src='../$restaurant[photo]' style='height:300px'></img></a></p>
+						</div>
+						<div class='col-sm-6'>
 							<p>$restaurant[description]</p>
-							<a href='../food/food-view.php?restaurant=$restaurant[restaurant_id]'><h4>View all food items</h4></a>
 							<p>$restaurant[address]<br>
 							$restaurant[phone]<br>
 							$restaurant[website]</p>
+						
 			_END;
 			
-			echo	'<p>'.displayStarRating($restaurant['avg_rating']).' '.$restaurant['num_reviews'].' reviews</p>';
+			echo	'<a href="#food-items-list"><p>'.displayStarRating($restaurant['avg_rating']).' '.$restaurant['num_reviews'].' food item reviews</p></a>';
 			
 			echo <<<_END
 						</div>
+					</div>
 						<div class='col-sm-4'>
 							
 							
 						</div>
 					</div> 
 				</div>
+			</div>
 			_END;
 			
 		}

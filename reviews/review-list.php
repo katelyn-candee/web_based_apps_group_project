@@ -23,7 +23,8 @@ if(isset($_GET['food_item']))	{
 	$query = "
 		select 
 			f.name as food_item_name,
-			r.name as restaurant_name
+			r.name as restaurant_name,
+			f.restaurant_id
 		from food_item as f
 		left join restaurant as r
 			on f.restaurant_id = r.restaurant_id
@@ -37,10 +38,11 @@ if(isset($_GET['food_item']))	{
 	
 	//display food item reviews header and 'add review' button
 	echo <<<_END
+		<div class='card'>
 		<div class='container-fluid'>
 			<div class='row'>
 				<div class="col-sm-12">
-					<h2 style='text-align:left'>Reviews for the $food_item[food_item_name] at $food_item[restaurant_name]</h2><br>
+					<h2 style='text-align:left'>Reviews for the $food_item[food_item_name] at <a href='../food/food-view.php?restaurant=$food_item[restaurant_id]'>$food_item[restaurant_name]</a></h2><br>
 				</div>
 			</div>
 			<div class='row'>
@@ -116,10 +118,10 @@ if(isset($_GET['food_item']))	{
 								</div>
 							</div>
 							<div class='row'>
-								<div class='col-sm-6'>
+								<div class='col-sm-8'>
 									<p>Last updated $review_date</p>
 								</div>
-								<div class='col-sm-6'>
+								<div class='col-sm-4'>
 									<p><a href='review-update.php?review=$review[review_id]'>Update</a>
 									<a href='review-delete.php?food_item=$food_item_id&review=$review[review_id]'>Delete</a></p>
 								</div>

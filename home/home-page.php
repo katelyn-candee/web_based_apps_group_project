@@ -20,8 +20,8 @@ $query = "SELECT * FROM review ORDER BY date DESC LIMIT 5;";
 $result = $conn->query($query);
 
 if ($result->num_rows > 0) {
-    echo '<h1>Check out these recent reviews!</h1><br>';
-    echo '<div id="myCarousel" class="carousel slide" data-ride="carousel">';
+    echo '<div class="card"><h1 style="text-align:center">Check out these recent reviews!</h1>';
+    echo '<div id="myCarousel" class="carousel slide card" data-ride="carousel">';
     echo '<ol class="carousel-indicators">';
 
     // carousel indicators
@@ -43,7 +43,7 @@ if ($result->num_rows > 0) {
         echo '<div class="item ' . $active . '">';
 		echo "<a href='../reviews/review-list.php?food_item=$row[food_item_id]'>";
         echo '<br><br><br>';
-		echo '<h2>'. displayStarRating($row['rating']) .'</h2>';
+		echo '<h2 style="text-align:center">'. displayStarRating($row['rating']) .'</h2>';
         echo '<h3>' . $row['title'] . '</h3>';
         echo '<p>' . $row['description'] . '</p><br>';
         echo '<strong>Last updated </strong>' . $row['date'] . '<br>';
@@ -65,22 +65,26 @@ if ($result->num_rows > 0) {
     echo '</a>';
 
     echo '</div>'; 
+	echo '</div>';
 }
 
 $conn->close();
 ?>
 		
 		<!-- Search form -->
-		<h1> Search </h1>
-		<div class='form' style='text-align:center'>
+		<div class='card'>
+		<h1 style='text-align:center'> Search </h1>
+		<div class='form style='text-align:center'>
 			<form method='post' action='../restaurants/restaurant-list.php'>
 				<input type='text' name='search' placeholder='e.g. italian or Steakville'>
 				<submit type='button' value='Search'>
 			</form>
 		</div>
+		</div>
 		
 		<!-- Category Table-->
-		<h1> Categories </h1>
+		<div class='card'>
+		<h1 style='text-align:center'> Categories </h1>
 			<table class="card-table">
 				<tr>
 					<td class="card"><a href="../restaurants/restaurant-list.php?category=indian"><h3>Indian</h3></a></td>
@@ -98,6 +102,7 @@ $conn->close();
 					<td class="card"><a href="../restaurants/restaurant-list.php?category=american"><h3>American</h3></a></td>
 				</tr>
 			</table>
+		</div>
 
     	
     	<br><br><br><br>

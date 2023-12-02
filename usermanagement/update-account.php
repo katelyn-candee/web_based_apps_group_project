@@ -1,31 +1,9 @@
 <html>
 	<head>
-	<title>Update Account</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<link rel="stylesheet" href="../home/food-style.css"> 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
-	</head>
-	<body>
-	<nav class="navbar navbar-default">
-	  		<div class="container">
-				<div class="navbar-header">
-		   			<a class="navbar-brand" href="#myPage"><span class="glyphicon glyphicon-globe logo"></span></a>
-				</div>
-				<div class="collapse navbar-collapse" id="myNavbar">
-		  			<ul class="nav navbar-nav navbar-right">
-		  				<li><a href="../home/home-page.php">Home</a></li>
-						<li><a href="../restaurants/restaurant-list.php">Restaurants</a></li>
-						<li><a href="../usermanagement/account-details.php">Profile</a></li>
-						<li><a href="../usermanagement/account-login.php">LOGOUT</a></li>
-		  			</ul>
-				</div>
-	  		</div>
-		</nav>
+	<title>My Account</title>
 
-	</body>
-</html>
 <?php
+require_once "../style/header.php";
 $page_roles = array('admin','member','restaurant');
 // Database connection details
 require_once '../db/login.php';
@@ -55,68 +33,79 @@ if ($member_result->num_rows > 0 && $user_result->num_rows > 0) {
 	
 	
 	echo <<<_END
-	<h2>Update Account Details</h2>
-	<form action='update-account.php' method='post'>
-	
-	<pre>
-	
-	First Name: <input type='text' name='first_name' value='$member_row[first_name]'>
-	Last Name: <input type='text' name='last_name' value='$member_row[last_name]'>
-	Username: <input type='text' name='username' value='$user_row[username]'>
-	Password: <input type='text' name='password'>
-	City: <input type='text' name='city' value='$member_row[city]'>
-	State: <input type='text' name='state' value='$member_row[state]'>
-	Account Type: $user_row[role]
-	
-	</pre>
-
-		<input type='hidden' name='update' value='yes'>
-		<input type='hidden' name='user_id' value='$user_row[user_id]'>
-		<input type='submit' value='UPDATE ACCOUNT'>	
-	</form>
-	<form action='delete-account.php' method='post'>
-	<input type='hidden' name='delete' value='yes'>
-	<input type='hidden' name='user_id' value='$user_row[user_id]'>
-	<input type='submit' value='DELETE ACCOUNT'>
-	</form>
-	
+	<div class='container-fluid card'>
+		<div class='row'>
+			<div class='col-sm-12'>
+				<h2 style='text-align:left'>Update your account</h2><br>
+			</div>
+		</div>
+		<div class='row'>				
+			<form action='update-account.php' method='post' style='text-align:left'>
+				<div class='col-sm-6'>
+					First Name: <br><input type='text' name='first_name' value='$member_row[first_name]'><br><br>
+					Last Name: <br><input type='text' name='last_name' value='$member_row[last_name]'><br><br>
+					Username: <br><input type='text' name='username' value='$user_row[username]'><br><br>
+					Password: <br><input type='text' name='password'><br><br>
+					City: <br><input type='text' name='city' value='$member_row[city]'><br><br>
+					State: <br><input type='text' name='state' value='$member_row[state]'><br><br>
+				</div>
+				<div class='col-sm-6'>
+					Account Type: <br>$user_row[role]<br><br>
+					<input type='hidden' name='update' value='yes'>
+					<input type='hidden' name='user_id' value='$user_row[user_id]'>
+					<input type='submit' value='Update account'><br>	
+				</form>
+				<form action='delete-account.php' method='post' style='text-align:left'>
+					<input type='hidden' name='delete' value='yes'>
+					<input type='hidden' name='user_id' value='$user_row[user_id]'><br>
+					<input type='submit' value='Delete account'><br>
+				</form>
+			</div>
+		</div>
+	</div>
 _END;
+
 } else if ($restaurant_result->num_rows > 0 && $user_result->num_rows > 0) {
         $restaurant_row = $restaurant_result->fetch_assoc();
         $user_row = $user_result->fetch_assoc();
 	
 	
 	echo <<<_END
-	<h2>Update Account Details</h2>
-	<form action='update-account.php' method='post'>
-	
-	<pre>
-	
-	Restaurant Name: <input type='text' name='name' value='$restaurant_row[name]'>
-	Owner Name: <input type='text' name='owner_name' value='$restaurant_row[owner_name]'>
-	Restaurant Type: <input type='text' name='type' value='$restaurant_row[type]'>
-	Description: <input type='text' name='description' value='$restaurant_row[description]'>
-	Address: <input type='text' name='address' value='$restaurant_row[address]'>
-	Phone: <input type='text' name='phone' value='$restaurant_row[phone]'>
-	Website: <input type='text' name='website' value='$restaurant_row[website]'>
-	Email: <input type='text' name='email' value='$restaurant_row[email]'>
-	Photo: <input type='text' name='photo' value='$restaurant_row[photo]'>
-	Username: <input type='text' name='username' value='$user_row[username]'>
-	Password: <input type='text' name='password'>
-	Account Type: $user_row[role]
-	
-	</pre>
-
-		<input type='hidden' name='update' value='yes'>
-		<input type='hidden' name='user_id' value='$user_row[user_id]'>
-		<input type='submit' value='UPDATE ACCOUNT'>	
-	</form>
-	<form action='delete-account.php' method='post'>
-	<input type='hidden' name='delete' value='yes'>
-	<input type='hidden' name='user_id' value='$user_row[user_id]'>
-	<input type='submit' value='DELETE ACCOUNT'>
-	</form>
-	
+		<div class='container-fluid card'>
+			<div class='row'>
+				<div class='col-sm-12'>
+					<h2 style='text-align:left'>Update your account</h2><br>
+				</div>
+			</div>
+			<div class='row'>
+				<form action='update-account.php' method='post' style='text-align:left'>
+					<div class='col-sm-6'>
+						Restaurant Name: <br><input type='text' name='name' value='$restaurant_row[name]'><br><br>
+						Owner Name: <br><input type='text' name='owner_name' value='$restaurant_row[owner_name]'><br><br>
+						Restaurant Type: <br><input type='text' name='type' value='$restaurant_row[type]'><br><br>
+						Description: <br><input type='text' name='description' value='$restaurant_row[description]'><br><br>
+						Address: <br><input type='text' name='address' value='$restaurant_row[address]'><br><br>
+						Phone: <br><input type='text' name='phone' value='$restaurant_row[phone]'><br><br>
+						Website: <br><input type='text' name='website' value='$restaurant_row[website]'><br><br>
+					</div>
+					<div class='col-sm-6'>
+						Email: <br><input type='text' name='email' value='$restaurant_row[email]'><br><br>
+						Photo: <br><input type='text' name='photo' value='$restaurant_row[photo]'><br><br>
+						Username: <br><input type='text' name='username' value='$user_row[username]'><br><br>
+						Password: <br><input type='text' name='password'><br><br>
+						Account Type: <br>$user_row[role]
+						<input type='hidden' name='update' value='yes'><br><br>
+						<input type='hidden' name='user_id' value='$user_row[user_id]'>
+						<input type='submit' value='Update account'>	<br><br>
+				</form>
+				<form action='delete-account.php' method='post' style='text-align:left'>
+					<input type='hidden' name='delete' value='yes'>
+					<input type='hidden' name='user_id' value='$user_row[user_id]'>
+					<input type='submit' value='Delet account'><br>
+				</form>
+		</div>
+	</div>
+</div>
 
 
 _END;
@@ -175,9 +164,7 @@ if(isset($_POST['update'])){
 		if(!$r_result) die($conn->error);
 		
 	}
-	
-	
-	
+		
 	Header("Location: ../usermanagement/account-details.php");
 }
 
@@ -194,5 +181,3 @@ function mysql_fix_string($conn, $string){
 
 
 ?>
-
-//fix Delete!!!

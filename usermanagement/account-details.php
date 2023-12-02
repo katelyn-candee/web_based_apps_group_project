@@ -25,55 +25,42 @@ $conn->close();
 ?>
 
 <html>
-<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account Details</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<link rel="stylesheet" href="../home/food-style.css"> 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
-</head>
-<body>
-<!-- Navbar -->
-		<nav class="navbar navbar-default">
-	  		<div class="container">
-				<div class="navbar-header">
-		   			<a class="navbar-brand" href="#myPage"><span class="glyphicon glyphicon-globe logo"></span></a>
-				</div>
-				<div class="collapse navbar-collapse" id="myNavbar">
-		  			<ul class="nav navbar-nav navbar-right">
-		  				<li><a href="../home/home-page.php">Home</a></li>
-						<li><a href="../restaurants/restaurant-list.php">Restaurants</a></li>
-						<li><a href="../usermanagement/account-details.php">Profile</a></li>
-						<li><a href="../usermanagement/account-login.php">LOGOUT</a></li>
-		  			</ul>
-				</div>
-	  		</div>
-		</nav>
-    <h2>Account Details</h2>
+    <title>My Account</title> 
 
     <?php
+	require_once "../style/header.php";
+	
+	echo <<<_END
+		<div class='container-fluid card'>
+			<div class='row'>
+				<div class='col-sm-12'>
+					<h2 style='text-align:left'> Account Details</h2>
+				</div>
+			</div>
+		
+	_END;
+	
     // Display user details if available
     if ($member_result->num_rows > 0 && $user_result->num_rows > 0) {
         $member_row = $member_result->fetch_assoc();
         $user_row = $user_result->fetch_assoc();
         echo <<<_END
-	    	
-	    <pre style='font-family: Times New Roman, sans-serif;color: #2F363E;'>
-	
-	    <strong>First Name:</strong> $member_row[first_name]
-	    <strong>Last Name:</strong> $member_row[last_name]
-	    <strong>Username:</strong> $user_row[username]
-	    <strong>City:</strong> $member_row[city]
-	    <strong>State:</strong> $member_row[state]
-	    <strong>Account Type:</strong> $user_row[role]
-	    <strong>User ID:</strong> $user_row[user_id]	
-	
-	    </pre>
-
-		<a href='../usermanagement/update-account.php'><button>Update account</button></a>
+		
+		<div class='row'>
+				<div class='col-sm-12'>
+					<div style='text-align:left'>
+						<strong>First Name:</strong> $member_row[first_name]<br>
+						<strong>Last Name:</strong> $member_row[last_name]<br>
+						<strong>Username:</strong> $user_row[username]<br>
+						<strong>City:</strong> $member_row[city]<br>
+						<strong>State:</strong> $member_row[state]<br>
+						<strong>Account Type:</strong> $user_row[role]<br>
+						<strong>User ID:</strong> $user_row[user_id]<br><br>		
+						<a href='../usermanagement/update-account.php'><button>Update account</button></a>
+					</div>
+				</div>
+			</div>
 	
 _END;
     } else if ($restaurant_result->num_rows > 0 && $user_result->num_rows > 0) {

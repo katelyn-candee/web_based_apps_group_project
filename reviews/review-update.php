@@ -1,22 +1,10 @@
 <html>
 	<head>
 		<title>Update Review</title>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-		<link rel="stylesheet" href="food-style.css"> 
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	</head>
-	</body>
-		<div class='container-fluid' >
-			<div class='row'>
-				<div class='col-sm-12'>
-					<h1>Food Review App</h1>
-				</div>	
-			</div>
-		</div>
 
 <?php
 //import functions
+require_once "../style/header.php";
 require_once "../db/login.php";
 require_once "../usermanagement/User.php";
 
@@ -65,13 +53,13 @@ if(isset($_GET['review']))	{
 	echo <<<_END
 		<div class='container-fluid'>
 			<div class='row'>
-				<div class="col-sm-12">
+				<div class="col-sm-6">
 					<h2>Tell us what you thought about the $review[food_item_name] at $review[restaurant_name]</h2>
 				</div>	
 			</div>
 			<div class='row'>
-				<div class='col-sm-12'>
-					<form method='post'>
+				<div class='col-sm-6'>
+					<form method='post' style='text-align:left'>
 						<div>
 							Rating: 
 							<input type ="radio" name='review-rating' value ='1' $rating1> 1 star
@@ -82,8 +70,8 @@ if(isset($_GET['review']))	{
 							<br><br>
 						</div>
 						<div>
-							Review title: <input type='text' name='review-title' value='$review[title]'></input><br><br>
-							Review description: <input type='text' name='review-description' value='$review[description]'></input><br><br>
+							Review title: <br><input type='text' name='review-title' value='$review[title]'></input><br><br>
+							Review description: <br><input type='text' name='review-description' value='$review[description]'></input><br><br>
 						</div>
 							<input type='submit' value='Update review'></input>
 					</form>

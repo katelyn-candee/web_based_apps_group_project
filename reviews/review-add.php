@@ -1,23 +1,12 @@
 <html>
 	<head>
 		<title>Add Review</title>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-		<link rel="stylesheet" href="food-style.css"> 
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	</head>
-	</body>
-		<div class='container-fluid' >
-			<div class='row'>
-				<div class='col-sm-12'>
-					<h1>Food Review App</h1>
-				</div>	
-			</div>
-		</div>
 
 <?php
 //import functions
+require_once "../style/header.php";
 require_once "../db/login.php";
+require_once "../db/sanitize.php";
 require_once "../usermanagement/User.php";
 
 $page_roles = array("admin", "member");
@@ -28,8 +17,8 @@ require_once "../usermanagement/checksession.php";
 //$member_id = 4;
 
 //create database connection
-	$conn = new mysqli($hn, $un, $pw, $db);
-	if($conn->connect_error) die($conn->connect_error);
+$conn = new mysqli($hn, $un, $pw, $db);
+if($conn->connect_error) die($conn->connect_error);
 
 //check if food item id was passed and user is logged in
 if(isset($_GET['food_item']) and isset($_SESSION['user']))	{
@@ -73,13 +62,13 @@ if(isset($_GET['food_item']) and isset($_SESSION['user']))	{
 	echo <<<_END
 		<div class='container-fluid'>
 			<div class='row'>
-				<div class="col-sm-12">
-					<h2>Tell us what you thought about the $food_item[food_item_name] at $food_item[restaurant_name]</h2>
+				<div class="col-sm-6">
+					<h2 style='text-align:left'>Tell us what you thought about the $food_item[food_item_name] at $food_item[restaurant_name]</h2>
 				</div>	
 			</div>
 			<div class='row'>
-				<div class='col-sm-12'>
-					<form method='post'>
+				<div class='col-sm-6'>
+					<form method='post' style='text-align:left'>
 						<div>
 							Rating: 
 							<input type ="radio" name='review-rating' value ='1'> 1 star
@@ -90,8 +79,8 @@ if(isset($_GET['food_item']) and isset($_SESSION['user']))	{
 							<br><br>
 						</div>
 						<div>
-							Review title: <input type='text' name='review-title'></input><br><br>
-							Review description: <input type='text' name='review-description'></input><br><br>
+							Review title: <br><input type='text' name='review-title'></input><br><br>
+							Review description: <br><input type='text' name='review-description'></input><br><br>
 						</div>
 							<input type='hidden' name='member_id' value='$member[member_id]'>
 							<input type='submit' value='Add review'></input>
@@ -116,7 +105,7 @@ if(isset($_POST["review-rating"]))	{
 	
 	//description
 	if(isset($_POST['review-description']))	{
-		$review_description = $_POST["review-description"];
+		$review_description = mysql_entities_fix_string($conn, $_POST["review-description"]);
 	} else {
 		$review_description = "";
 	}

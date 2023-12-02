@@ -33,7 +33,7 @@ if(isset($_GET['category']))	{
 		<div class='container-fluid'>
 			<div class='row'>
 				<div class="col-sm-12">
-					<h2 style='text-align:left'>Results for "$category"</h2>
+					<h2 style='text-align:left;margin-left:10%;'>Results for "$category"</h2>
 				</div>	
 			</div>
 		</div>
@@ -73,7 +73,7 @@ if(isset($_GET['category']))	{
 		<div class='container-fluid'>
 			<div class='row'>
 				<div class="col-sm-12">
-					<h2 style='text-align:left'>Results for "$search"</h2>
+					<h2 style='text-align:left;margin-left:10%;'>Results for "$search"</h2>
 				</div>	
 			</div>
 		</div>
@@ -106,7 +106,7 @@ if(isset($_GET['category']))	{
 		<div class='container-fluid'>
 			<div class='row'>
 				<div class="col-sm-12">
-					<h2 style='text-align:left'>Results</h2>
+					<h2 style='text-align:left;margin-left:10%;'>Results</h2>
 				</div>	
 			</div>
 		</div>
@@ -139,13 +139,13 @@ function displayRestaurantResults($query, $hn, $un, $pw, $db)	{
 				<div class='container-fluid card' style='text-align:left'>
 					<div class='row'>
 						<div class='col-sm-8'>
-							<a href='restaurant-details.php?restaurant=$restaurant[restaurant_id]'><h3>$restaurant[name]</h3></a>
+							<a href='../food/food-view.php?restaurant=$restaurant[restaurant_id]'><h3>$restaurant[name]</h3></a>
 							<h4>$restaurant[type]</h4>
 							<p>$restaurant[description]</p>
 							
 			_END;
 			
-			echo	'<p>'.displayStarRating($restaurant['avg_rating']).' '.$restaurant['num_reviews'].' reviews</p>';
+			echo	"<a href='../food/food-view.php?restaurant=". $restaurant['restaurant_id'] ."#food-items-list'><p>". displayStarRating($restaurant['avg_rating']) ." ". $restaurant['num_reviews'] ." food item reviews</p></a>";
 			
 			echo <<<_END
 							<p>$restaurant[address]<br>
@@ -153,7 +153,7 @@ function displayRestaurantResults($query, $hn, $un, $pw, $db)	{
 							$restaurant[website]</p>
 						</div>
 						<div class='col-sm-4'>
-							<p><br><a href='restaurant-details.php?restaurant=$restaurant[restaurant_id]'><img src='../$restaurant[photo]' style='height:210px'></img></a></p>
+							<p><br><a href='../food/food-view.php?restaurant=$restaurant[restaurant_id]'><img src='../$restaurant[photo]'></img></a></p>
 							
 						</div>
 					</div> 

@@ -1,21 +1,25 @@
 <html>
     <head>
-        <title>Food App Login</title>
+        <title>Login</title>
 <?php require_once "../style/header.php"; ?>
 
     <body>
-        <div class="container">
-            <h2>Sign into your account</h2>
-            <form action="account-login.php" method="post">
+        <div class="container-fluid card">
+		<div class="row">
+		<div class="col-sm-12">
+            <h2 style='text-align:center'>Sign into your account</h2>
+            <form class="login" action="account-login.php" method="post">
                 <label for="username">Username</label>
-                <input class="login" type="text" id="username" name="username" required>
+                <input type="text" id="username" name="username" required style="width:200px">
 				<br>
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+                <input type="password" id="password" name="password" required style="width:200px">
 				<br><br>
                 <input class="login" type="submit" value="Login"></input><br><br>
                 New to food review app?<a href="create-account.php"><br>Create an account!</a>
             </form>
+		</div>
+		</div>
         </div>
     </body>
 </html>

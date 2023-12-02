@@ -18,10 +18,12 @@
 <?php
 require_once "../usermanagement/User.php";
 
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
 if(isset($_SESSION['user'])) {
-	echo "<li><a href='../usermanagement/account-details.php'>Account</a></li>";
+	echo "<li><a href='../usermanagement/account-details.php'>My Account</a></li>";
 	echo "<li><a href='../usermanagement/account-logout.php'>Logout</a></li>";
 } else {
 	echo "<li><a href='../usermanagement/account-login.php'>Login</a></li>";
