@@ -73,17 +73,7 @@ $conn->close();
 	
 	    </pre>
 
-		<form action='update-account.php' method='post'>
-		<input type='hidden' name='update' value='yes'>
-		<input type='hidden' name='user_id' value='$user_row[user_id]'>
-		<input type='submit' value='UPDATE CARD'>	
-	    </form>	
-		
-		<form action='delete-account.php' method='post'>
-		<input type='hidden' name='delete' value='yes'>
-		<input type='hidden' name='user_id' value='$user_row[user_id]'>
-		<input type='submit' value='DELETE CARD'>	
-	    </form>	
+		<a href='../usermanagement/update-account.php'><button>Update account</button></a>
 	
 _END;
     } else if ($restaurant_result->num_rows > 0 && $user_result->num_rows > 0) {
@@ -95,7 +85,7 @@ _END;
 	
 	    <strong>Resaturant Name:</strong> $restaurant_row[name]
 	    <strong>Owner Name:</strong> $restaurant_row[owner_name]
-	    <strong>Restaurant Type:</strong> $erstaurant_row[type]
+	    <strong>Restaurant Type:</strong> $restaurant_row[type]
 	    <strong>Description:</strong> $restaurant_row[description]
 	    <strong>Address:</strong> $restaurant_row[address]
 	    <strong>Phone:</strong> $restaurant_row[phone]
@@ -108,11 +98,7 @@ _END;
 	
 	    </pre>
 
-		<form action='update-account.php' method='post'>
-		<input type='hidden' name='update' value='yes'>
-		<input type='hidden' name='user_id' value='$row[user_id]'>
-		<input type='submit' value='UPDATE CARD'>	
-	    </form>	
+		<a href='../usermanagement/update-account.php'><button>Update account</button></a>
 	
 _END;
     } else {

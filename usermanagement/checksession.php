@@ -22,7 +22,7 @@ if(!isset($_SESSION['user'])){
 	}
 	
 	if(!$found){
-		header("Location: unauthorized.php");
+		header("Location: ../usermanagement/unauthorized.php");
 		exit();
 	}
 }

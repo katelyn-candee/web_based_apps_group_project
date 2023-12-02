@@ -28,7 +28,7 @@ if(isset($_POST['delete']))
 	$r_result = $conn->query($r_query); 
 	if(!$r_result) die($conn->error);
 	
-	$re_query = "DELETE FROM review WHERE user_id='$user_id' ";
+	$re_query = "DELETE FROM review WHERE member_id IN (SELECT member_id FROM member WHERE user_id='$user_id') ";
 
 	$re_result = $conn->query($re_query); 
 	if(!$r_result) die($conn->error);
