@@ -98,12 +98,11 @@ if(isset($_GET['food_item']))	{
 				//get session user info
 				$user = $_SESSION['user'];
 				$user_id = $user->user_id;
-				$user_roles[] = $user->getRoles();
+				$user_roles = $user->getRoles();
 				
 				//check if review blongs to logged in user
 				//or if logged in user is an administrator
-				if($user_id == $review['user_id']
-						or in_array('admin', $user_roles)){
+				if($user_id == $review['user_id']){
 					
 					//display review with update and delete links
 					echo <<<_END
@@ -123,6 +122,31 @@ if(isset($_GET['food_item']))	{
 								</div>
 								<div class='col-sm-4'>
 									<p><a href='review-update.php?review=$review[review_id]'>Update</a>
+									<a href='review-delete.php?food_item=$food_item_id&review=$review[review_id]'>Delete</a></p>
+								</div>
+							</div>
+						</div>
+					_END;
+				} else if($user_roles[0] == 'admin'){
+					
+					//display review with update and delete links
+					echo <<<_END
+									<h3>$review[title]</h3>
+									<p>$review[description]</p>
+								</div>	
+							</div>
+							<div class='row'>
+								<div class='col-sm-12'>
+									<p>$review[first_name]<br>
+									$review[city], $review[state]<br></p>
+								</div>
+							</div>
+							<div class='row'>
+								<div class='col-sm-8'>
+									<p>Last updated $review_date</p>
+								</div>
+								<div class='col-sm-4'>
+									<p>
 									<a href='review-delete.php?food_item=$food_item_id&review=$review[review_id]'>Delete</a></p>
 								</div>
 							</div>

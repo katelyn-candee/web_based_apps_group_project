@@ -73,7 +73,15 @@ function displayRestaurantResults($query, $hn, $un, $pw, $db)	{
 						
 			_END;
 			
-			echo	'<a href="#food-items-list"><p>'.displayStarRating($restaurant['avg_rating']).' '.$restaurant['num_reviews'].' food item reviews</p></a>';
+			if ($restaurant['num_reviews'] > 0){
+				
+				echo	'<a href="#food-items-list"><p>'.displayStarRating($restaurant['avg_rating']).' '.$restaurant['num_reviews'].' food item reviews</p></a>';
+				
+			} else {
+				
+				echo "<a href='#food-items-list'><p>0 food item reviews</p></a>";
+				
+			}
 			
 			echo <<<_END
 						</div>

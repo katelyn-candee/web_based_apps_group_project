@@ -6,6 +6,7 @@
 //import functions
 require_once "../style/header.php";
 require_once "../db/login.php";
+require_once "../db/sanitize.php";
 require_once "../usermanagement/User.php";
 
 $page_roles = array("admin", "member");
@@ -88,14 +89,14 @@ if(isset($_POST["review-rating"]))	{
 	if(isset($_POST["review-title"]))	{
 	
 	//title
-	$review_title = $_POST['review-title'];
+	$review_title = mysql_entities_fix_string($conn, $_POST['review-title']);
 	} else {
 		$review_title = "";
 	}
 	
 	//description
 	if(isset($_POST['review-description']))	{
-		$review_description = $_POST["review-description"];
+		$review_description = mysql_entities_fix_string($conn, $_POST["review-description"]);
 	} else {
 		$review_description = "";
 	}

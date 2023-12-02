@@ -1,77 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food Item Update</title>
-    <style>
-        body {
-            font-family: Times New Roman, sans-serif;
-            background-color: #EBEDD3;
-            margin: 0;
-            padding: 0;
-        }
-		
-		h1 {
-			text-align: center;
-			margin-top: 30px;
-			font-size: 28px;
-			color: #2F363E;
-		}
-
-        .container {
-            max-width: 600px;
-            margin: 20px auto;
-            background-color: #fff;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        form {
-            margin-top: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        input {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 12px;
-            box-sizing: border-box;
-        }
-
-        img {
-            max-width: 100%;
-            height: auto;
-            margin-bottom: 20px;
-        }
-
-        .btn {
-            background-color: #4caf50;
-            color: #fff;
-            padding: 10px 15px;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        .btn-cancel {
-            background-color: #ccc;
-        }
-    </style>
-</head>
-<body>
-
-	<header>
-        <h1>Edit Food Item</h1>
-    </header>
+    <title>Update</title>
 
 <?php
+require_once "../style/header.php";
 require_once '../db/login.php';
-
 require_once "../usermanagement/User.php";
 
 $page_roles = array("admin", "restaurant");
@@ -95,47 +28,50 @@ if (isset($_GET['food_item_id'])) {
     $rows = $result->num_rows;
 
     ?>
-    <div class="container">
+    <div class="container-fluid card">
+	<h1>Update</h1>
         <?php
         for ($j = 0; $j < $rows; $j++) {
             $row = $result->fetch_array(MYSQLI_ASSOC);
             $photo = $row['photo'];
             ?>
 
-            <form action='food-update.php' method='post'>
-                <img src='<?php echo $photo; ?>' alt='Food Item Photo'>
+            <form action='food-update.php?food_item_id=<?php echo $row['food_item_id']; ?>' method='post' style='text-align:left'>
+			<div class="row">
+				<div class="col-sm-6">
+				<img src='<?php echo "../".$photo; ?>' alt='Food Item Photo'><br><br>
 				
-				<label for="r_name">Restaurant:</label>
-                <input type='text' name='r_name' value='<?php echo $row['r_name']; ?>' readonly>
+				Restaurant: <br>
+                <input type='text' name='name' value='<?php echo $row['r_name']; ?>' required readonly style='color:gray'><br><br>
 				
-                <label for="name">Name:</label>
-                <input type='text' name='name' value='<?php echo $row['name']; ?>' required>
+                Name: <br>
+                <input type='text' name='name' value='<?php echo $row['name']; ?>' required><br><br>
 
-                <label for="description">Description:</label>
-                <input type='text' name='description' value='<?php echo $row['description']; ?>' required>
+                Description: <br>
+                <input type='text' name='description' value='<?php echo $row['description']; ?>' required><br><br>
 
-                <label for="type">Type:</label>
-                <input type='text' name='type' value='<?php echo $row['type']; ?>' required>
+                Type: <br>
+                <input type='text' name='type' value='<?php echo $row['type']; ?>' required><br><br>
 
-                <label for="price">Price: $</label>
-                <input type='number' name='price' value='<?php echo $row['price']; ?>' required>
+                Price: <br>
+                <input type='number' name='price' value='<?php echo $row['price']; ?>' required><br><br>
 				
-				<label for="rating">Average Rating:</label>
-                <input type='number' name='rating' value='<?php echo $row['rating']; ?>' required readonly>
+				Average Rating: <br>
+                <input type='number' name='rating' value='<?php echo $row['rating']; ?>' required readonly style='color:gray'><br><br>
 
-                <label for="photo">Image Path:</label>
-                <input type='text' name='photo' value='<?php echo $photo; ?>' required>
+                Image Path: <br>
+                <input type='text' name='photo' value='<?php echo $photo; ?>' required><br><br>
 
                 <input type='hidden' name='update' value='yes'>
 				<input type='hidden' name='restaurant_id' value='<?php echo $row['restaurant_id']; ?>'>
                 <input type='hidden' name='food_item_id' value='<?php echo $row['food_item_id']; ?>'>
 
-                <button type='submit' class='btn'>UPDATE RECORD</button>
+                <button type='submit' class='btn'>Update</button>
             </form>
 
-            <form action='food-details.php?food_item_id=<?php echo $row['food_item_id']; ?>' method='post'>
-                <input type='hidden' name='food_item_id' value='<?php echo $row['food_item_id']; ?>'>
-                <button type='submit' class='btn btn-cancel'>CANCEL</button>
+            <form action='food-details.php?food_item_id=<?php echo $row['food_item_id']; ?>' method='post' style='text-align:left'>
+                <br><input type='hidden' name='food_item_id' value='<?php echo $row['food_item_id']; ?>'>
+                <button type='submit' class='btn btn-cancel'>Cancel</button>
             </form>
 
         <?php } ?>

@@ -9,7 +9,7 @@ require_once "../db/login.php";
 require_once "../db/sanitize.php";
 require_once "../usermanagement/User.php";
 
-$page_roles = array("admin", "member");
+$page_roles = array("member");
 
 require_once "../usermanagement/checksession.php";
 
@@ -98,7 +98,7 @@ if(isset($_POST["review-rating"]))	{
 	
 	//title
 	if(isset($_POST["review-title"]))	{
-		$review_title = $_POST['review-title'];
+		$review_title = mysql_entities_fix_string($conn, $_POST['review-title']);
 	} else {
 		$review_title = "";
 	}

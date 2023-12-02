@@ -44,8 +44,8 @@ if ($member_result->num_rows > 0 && $user_result->num_rows > 0) {
 				<div class='col-sm-6'>
 					First Name: <br><input type='text' name='first_name' value='$member_row[first_name]'><br><br>
 					Last Name: <br><input type='text' name='last_name' value='$member_row[last_name]'><br><br>
-					Username: <br><input type='text' name='username' value='$user_row[username]'><br><br>
-					Password: <br><input type='text' name='password'><br><br>
+					Username: <br><input type='text' name='username' value='$user_row[username]' required><br><br>
+					Password: <br><input type='text' name='password' required><br><br>
 					City: <br><input type='text' name='city' value='$member_row[city]'><br><br>
 					State: <br><input type='text' name='state' value='$member_row[state]'><br><br>
 				</div>
@@ -91,8 +91,8 @@ _END;
 					<div class='col-sm-6'>
 						Email: <br><input type='text' name='email' value='$restaurant_row[email]'><br><br>
 						Photo: <br><input type='text' name='photo' value='$restaurant_row[photo]'><br><br>
-						Username: <br><input type='text' name='username' value='$user_row[username]'><br><br>
-						Password: <br><input type='text' name='password'><br><br>
+						Username: <br><input type='text' name='username' value='$user_row[username]' required><br><br>
+						Password: <br><input type='text' name='password' required><br><br>
 						Account Type: <br>$user_row[role]
 						<input type='hidden' name='update' value='yes'><br><br>
 						<input type='hidden' name='user_id' value='$user_row[user_id]'>
@@ -101,7 +101,41 @@ _END;
 				<form action='delete-account.php' method='post' style='text-align:left'>
 					<input type='hidden' name='delete' value='yes'>
 					<input type='hidden' name='user_id' value='$user_row[user_id]'>
-					<input type='submit' value='Delet account'><br>
+					<input type='submit' value='Delete account'><br>
+				</form>
+		</div>
+	</div>
+</div>
+
+
+_END;
+
+} else if ($user_result->num_rows > 0) {
+        $restaurant_row = $restaurant_result->fetch_assoc();
+        $user_row = $user_result->fetch_assoc();
+	
+	
+	echo <<<_END
+		<div class='container-fluid card'>
+			<div class='row'>
+				<div class='col-sm-12'>
+					<h2 style='text-align:left'>Update your account</h2><br>
+				</div>
+			</div>
+			<div class='row'>
+				<form action='update-account.php' method='post' style='text-align:left'>
+					<div class='col-sm-6'>
+						Username: <br><input type='text' name='username' value='$user_row[username]' required><br><br>
+						Password: <br><input type='text' name='password' required><br><br>
+						Account Type: <br>$user_row[role]
+						<input type='hidden' name='update' value='yes'><br><br>
+						<input type='hidden' name='user_id' value='$user_row[user_id]'>
+						<input type='submit' value='Update account'>	<br><br>
+				</form>
+				<form action='delete-account.php' method='post' style='text-align:left'>
+					<input type='hidden' name='delete' value='yes'>
+					<input type='hidden' name='user_id' value='$user_row[user_id]'>
+					<input type='submit' value='Delete account'><br>
 				</form>
 		</div>
 	</div>
@@ -162,6 +196,19 @@ if(isset($_POST['update'])){
 		
 		$r_result = $conn->query($r_query); 
 		if(!$r_result) die($conn->error);
+	
+	} else if ($user_result->num_rows > 0) {
+		
+		
+		$user_id= mysql_entities_fix_string($conn,$_POST['user_id']);
+		$username= mysql_entities_fix_string($conn,$_POST['username']);
+		$password= mysql_entities_fix_string($conn,$_POST['password']);
+		$token = password_hash($password, PASSWORD_DEFAULT); // Hash the password
+		
+		$u_query = "UPDATE user SET username='$username',password='$token' where user_id=$user_id";
+	
+		$u_result = $conn->query($u_query); 
+		if(!$u_result) die($conn->error);
 		
 	}
 		

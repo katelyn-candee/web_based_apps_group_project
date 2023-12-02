@@ -68,24 +68,42 @@ _END;
         $user_row = $user_result->fetch_assoc();
         echo <<<_END
 	    	
-	    <pre style='font-family: Times New Roman, sans-serif;color: #2F363E;'>
+	    <div class='row'>
+			<div class='col-sm-12'>
+				<div style='text-align:left'>
+					<strong>Resaturant Name:</strong> $restaurant_row[name]<br>
+					<strong>Owner Name:</strong> $restaurant_row[owner_name]<br>
+					<strong>Restaurant Type:</strong> $restaurant_row[type]<br>
+					<strong>Description:</strong> $restaurant_row[description]<br>
+					<strong>Address:</strong> $restaurant_row[address]<br>
+					<strong>Phone:</strong> $restaurant_row[phone]<br>
+					<strong>Website:</strong> $restaurant_row[website]<br>
+					<strong>Email:</strong> $restaurant_row[email]<br>
+					<strong>Photo:</strong> $restaurant_row[photo]<br>
+					<strong>Username:</strong> $user_row[username]<br>
+					<strong>Account Type:</strong> $user_row[role]<br>
+					<strong>User ID:</strong> $user_row[user_id]<br><br>
+					<a href='../usermanagement/update-account.php'><button>Update account</button></a>
+					</div>
+				</div>
+			</div>
 	
-	    <strong>Resaturant Name:</strong> $restaurant_row[name]
-	    <strong>Owner Name:</strong> $restaurant_row[owner_name]
-	    <strong>Restaurant Type:</strong> $restaurant_row[type]
-	    <strong>Description:</strong> $restaurant_row[description]
-	    <strong>Address:</strong> $restaurant_row[address]
-	    <strong>Phone:</strong> $restaurant_row[phone]
-	    <strong>Website:</strong> $restaurant_row[website]
-	    <strong>Email:</strong> $restaurant_row[email]
-	    <strong>Photo:</strong> $restaurant_row[photo]
-	    <strong>Username:</strong> $user_row[username]
-	    <strong>Account Type:</strong> $user_row[role]
-	    <strong>User ID:</strong> $user_row[user_id]	
-	
-	    </pre>
-
-		<a href='../usermanagement/update-account.php'><button>Update account</button></a>
+_END;
+    } else if ($user_result->num_rows > 0) {
+        $restaurant_row = $restaurant_result->fetch_assoc();
+        $user_row = $user_result->fetch_assoc();
+        echo <<<_END
+	    	
+	    <div class='row'>
+			<div class='col-sm-12'>
+				<div style='text-align:left'>
+					<strong>Username:</strong> $user_row[username]<br>
+					<strong>Account Type:</strong> $user_row[role]<br>
+					<strong>User ID:</strong> $user_row[user_id]<br><br>
+					<a href='../usermanagement/update-account.php'><button>Update account</button></a>
+					</div>
+				</div>
+			</div>
 	
 _END;
     } else {

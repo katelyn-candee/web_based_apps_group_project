@@ -17,6 +17,14 @@ if($conn->connect_error) die($conn->connect_error);
 if(isset($_POST['delete']))
 {
 	$food_item_id = $_POST['food_item_id'];
+	
+	$query = "SELECT restaurant_id FROM food_item WHERE food_item_id='$food_item_id'";
+	
+	//Run the query
+	$result = $conn->query($query); 
+	if(!$result) die($conn->error);
+	$restaurant =  $result->fetch_array(MYSQLI_ASSOC);
+	$restaurant_id = $restaurant['restaurant_id'];
 
 	$query = "DELETE FROM food_item WHERE food_item_id='$food_item_id'";
 	
@@ -31,7 +39,7 @@ if(isset($_POST['delete']))
 	if(!$result) die($conn->error);
 	
 	//Return to the viewAllClassics page
-	header("Location: food-view.php");
+	header("Location: food-view.php?restaurant=$restaurant_id");
 	
 }
 
