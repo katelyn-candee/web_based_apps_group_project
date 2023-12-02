@@ -58,6 +58,9 @@ $restaurant_id = $_GET['restaurant'];
 <?php
 	}
 }else{
+	
+	require_once "../restaurants/restaurant-details.php"; 
+	
 		$query = "SELECT f.food_item_id, f.restaurant_id, f.name, f.description, f.type, f.price, f.photo, rest.name AS r_name, ifnull(AVG(r.rating),0) AS rating, COUNT(r.rating) as num_reviews FROM food_item as f LEFT JOIN review as r ON f.food_item_id = r.food_item_id LEFT JOIN restaurant as rest on f.restaurant_id = rest.restaurant_id GROUP BY food_item_id;
 	";
 
