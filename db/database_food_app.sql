@@ -418,7 +418,8 @@ INSERT INTO `user` (`user_id`, `username`, `password`, `role`) VALUES
 (49, 'foodieMaestro', '$2y$10$DiIcazZ9uwnY0GFfTx0WLuo65iwS6wBTukHKl5cKzxG8SdJgPLa5K', 'admin'),
 (50, 'culinaryVirtuoso2', '$2y$10$RxaL2wTT1HNB7keFt0Q4ouvahoIlaeOGkhi0lfpgzXmV.eKS7CP0a', 'member'),
 (53, 'pjones', '$2y$10$DiIcazZ9uwnY0GFfTx0WLuo65iwS6wBTukHKl5cKzxG8SdJgPLa5K', 'restaurant'),
-(52, 'bsmith', '$2y$10$RxaL2wTT1HNB7keFt0Q4ouvahoIlaeOGkhi0lfpgzXmV.eKS7CP0a', 'member');
+(52, 'bsmith', '$2y$10$RxaL2wTT1HNB7keFt0Q4ouvahoIlaeOGkhi0lfpgzXmV.eKS7CP0a', 'member'),
+(54, 'pjones_admin', '$2y$10$4O8fn/bWbbxiAX.Adg5bzefxcEvD3Zlss1Eloyi3Y3p1L9kM7BzO.', 'admin');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

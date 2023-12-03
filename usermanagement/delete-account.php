@@ -14,15 +14,15 @@ if(isset($_POST['delete']))
 	$user_id = $_POST['user_id'];
 	
 	//delete reviews associated with user
-	$re_query = "DELETE FROM food_item WHERE restaurant_id IN (SELECT restaurant_id FROM restaurant WHERE user_id=$user_id) ";
+	$re_query = "DELETE FROM review WHERE member_id IN (SELECT member_id FROM member WHERE user_id='$user_id') ";
 
 	$re_result = $conn->query($re_query); 
 	if(!$re_result) die($conn->error);
 	
 	//delete food items associated with user
-	$re_query = "DELETE FROM food_item WHERE member_id IN (SELECT member_id FROM member WHERE user_id='$user_id') ";
+	$f_query = "DELETE FROM food_item WHERE restaurant_id IN (SELECT restaurant_id FROM restaurant WHERE user_id=$user_id) ";
 
-	$re_result = $conn->query($re_query); 
+	$f_result = $conn->query($f_query); 
 	if(!$re_result) die($conn->error);
 
 	//delete member associated with user

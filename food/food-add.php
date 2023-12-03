@@ -68,7 +68,7 @@
         <input type='text' name='name' required>
 
         <label for="restaurant_ID">Restaurant ID:</label>
-        <input type='number' name='restaurant_ID' required>
+        <input type='number' name='restaurant_ID' value='<?php if(isset($_POST['restaurant_id'])){echo $_POST['restaurant_id'];} ?>' required readonly>
 
         <label for="type">Type:</label>
         <input type='text' name='type' required>
@@ -84,7 +84,7 @@
 
         <button type='submit'class='btn'>Add Record</button>
     </form>
-	<form action='food-view.php' method='post'>
+	<form action='../food/food-view.php?restaurant=<?php echo $_POST['restaurant_id']; ?>' method='post'>
         <button type='submit' class='btn btn-cancel'>CANCEL</button>
     </form>
 </div>
@@ -119,6 +119,6 @@ if (isset($_POST['name'])) {
     $result = $conn->query($query);
     if (!$result) die($conn->error);
 
-    header("Location: food-view.php"); // This will return you to the view all page
+    header("Location: ../food/food-view.php?restaurant=$restaurant_ID"); // This will return you to the view all page
 }
 ?>

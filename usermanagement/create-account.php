@@ -59,8 +59,8 @@
                 <label for="email">Email:</label>
                 <input type="email" name="email">
 
-                <label for="image">Firm Image:</label>
-                <input type="file" id="image" name="image" accept="image/*">
+                <label for="image">Image path:</label>
+                <input type="text" id="image" name="photo">
 
                 <label for="owner_name">Owner Name:</label>
                 <input type="text" name="owner_name">
@@ -91,6 +91,7 @@
 </html>
 <?php
 require_once '../db/login.php';
+require_once '../db/sanitize.php';
 
 $conn = new mysqli($hn, $un, $pw, $db);
 if ($conn->connect_error) {
@@ -98,8 +99,8 @@ if ($conn->connect_error) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST["username"];
-    $password = $_POST["password"];
+    $username = mysql_entities_fix_string($conn,$_POST["username"]);
+    $password = mysql_entities_fix_string($conn,$_POST["password"]);
     $token = password_hash($password, PASSWORD_DEFAULT); // Hash the password
     $role = $_POST["role"];
 
@@ -109,23 +110,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $user_id = $conn->insert_id; 
 
         if ($role == "member") {
-            $first_name = $_POST["first_name"];
-            $last_name = $_POST["last_name"];
-            $city = $_POST["city"];
-            $state = $_POST["state"];
+            $first_name = mysql_entities_fix_string($conn,$_POST["first_name"]);
+            $last_name = mysql_entities_fix_string($conn,$_POST["last_name"]);
+            $city = mysql_entities_fix_string($conn,$_POST["city"]);
+            $state = mysql_entities_fix_string($conn,$_POST["state"]);
             
             $query_member = "INSERT INTO member (user_id, first_name, last_name, city, state) VALUES ('$user_id', '$first_name', '$last_name', '$city', '$state')";
             $conn->query($query_member);
         } elseif ($role == "restaurant") {
-            $name = $_POST["name"];
-            $type = $_POST["type"];
-            $description = $_POST["description"];
-            $address = $_POST["address"];
-            $phone = $_POST["phone"];
-            $website = $_POST["website"];
-            $email = $_POST["email"];
-            $photo = $_POST["photo"];
-            $owner_name = $_POST["owner_name"];
+            $name = mysql_entities_fix_string($conn,$_POST["name"]);
+            $type = mysql_entities_fix_string($conn,$_POST["type"]);
+            $description = mysql_entities_fix_string($conn,$_POST["description"]);
+            $address = mysql_entities_fix_string($conn,$_POST["address"]);
+            $phone = mysql_entities_fix_string($conn,$_POST["phone"]);
+            $website = mysql_entities_fix_string($conn,$_POST["website"]);
+            $email = mysql_entities_fix_string($conn,$_POST["email"]);
+            $photo = mysql_entities_fix_string($conn,$_POST["photo"]);
+            $owner_name = mysql_entities_fix_string($conn,$_POST["owner_name"]);
 
             $query_restaurant = "INSERT INTO restaurant (user_id, name, type, description, address, phone, website, email, photo, owner_name) VALUES ('$user_id', '$name', '$type', '$description', '$address', '$phone', '$website', '$email', '$photo', '$owner_name')";
             $conn->query($query_restaurant);
