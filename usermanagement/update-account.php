@@ -125,7 +125,7 @@ _END;
 				<form action='update-account.php' method='post' style='text-align:left'>
 					<div class='col-sm-6'>
 						Username: <br><input type='text' name='username' value='$user_row[username]' required><br><br>
-						Password: <br><input type='text' name='password' required><br><br>
+						Password: <br><input type='password' name='password' required><br><br>
 						Account Type: <br>$user_row[role]
 						<input type='hidden' name='update' value='yes'><br><br>
 						<input type='hidden' name='user_id' value='$user_row[user_id]'>
