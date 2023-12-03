@@ -1,7 +1,6 @@
 <html>
 	<head>
 	<title>My Account</title>
-
 <?php
 require_once "../style/header.php";
 $page_roles = array('admin','member','restaurant');
@@ -45,7 +44,7 @@ if ($member_result->num_rows > 0 && $user_result->num_rows > 0) {
 					First Name: <br><input type='text' name='first_name' value='$member_row[first_name]'><br><br>
 					Last Name: <br><input type='text' name='last_name' value='$member_row[last_name]'><br><br>
 					Username: <br><input type='text' name='username' value='$user_row[username]' required><br><br>
-					Password: <br><input type='text' name='password' required><br><br>
+					Password: <br><input type='password' name='password' required><br><br>
 					City: <br><input type='text' name='city' value='$member_row[city]'><br><br>
 					State: <br><input type='text' name='state' value='$member_row[state]'><br><br>
 				</div>
@@ -92,7 +91,7 @@ _END;
 						Email: <br><input type='text' name='email' value='$restaurant_row[email]'><br><br>
 						Photo: <br><input type='text' name='photo' value='$restaurant_row[photo]'><br><br>
 						Username: <br><input type='text' name='username' value='$user_row[username]' required><br><br>
-						Password: <br><input type='text' name='password' required><br><br>
+						Password: <br><input type='password' name='password' required><br><br>
 						Account Type: <br>$user_row[role]
 						<input type='hidden' name='update' value='yes'><br><br>
 						<input type='hidden' name='user_id' value='$user_row[user_id]'>
